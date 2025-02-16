@@ -1,30 +1,1295 @@
-System.register("chunks:///_virtual/AssetManagerWrapper.ts",["./rollupPluginModLoBabelHelpers.js","cc","./ConsoleLogger.ts"],(function(e){var n,o,t,a,l;return{setters:[function(e){n=e.createClass},function(e){o=e.cclegacy,t=e._decorator,a=e.assetManager},function(e){l=e.default}],execute:function(){var r,c;o._RF.push({},"da634jL/+pMHboatycHIV1V","AssetManagerWrapper",void 0);var s=t.ccclass;e("default",s(((c=function(){function e(){}var o=e.prototype;return o.loadBundle=function(e,n){a.loadBundle(e,(function(o,t){if(o)return l.instance.error("Failed to load bundle: "+e,o),void n(o,null);l.instance.info("Bundle loaded: "+e),n(null,t)}))},o.loadResource=function(e,n,o,t){e.load(n,o,(function(e,o){if(e)return l.instance.error("Failed to load resource: "+n,e),void t(e,null);l.instance.info("Resource loaded: "+n),t(null,o)}))},o.loadScene=function(e,n,o){e.loadScene(n,(function(e,t){if(e)return l.instance.error("Failed to load scene: "+n,e),void o(e,null);l.instance.info("Scene loaded: "+n),o(null,t)}))},o.releaseResource=function(e){a.releaseAsset(e),l.instance.info("Resource released: "+e.name)},o.releaseBundle=function(e){e.releaseAll(),l.instance.info("All resources released from bundle: "+e.name)},o.removeBundle=function(e){a.removeBundle(e),l.instance.info("Bundle removed: "+e.name)},n(e,null,[{key:"instance",get:function(){return this._instance||(this._instance=new e),this._instance}}]),e}())._instance=null,r=c))||r);o._RF.pop()}}}));
+System.register("chunks:///_virtual/AssetManagerWrapper.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './ConsoleLogger.ts'], function (exports) {
+  var _createClass, cclegacy, _decorator, assetManager, ConsoleLogger;
+  return {
+    setters: [function (module) {
+      _createClass = module.createClass;
+    }, function (module) {
+      cclegacy = module.cclegacy;
+      _decorator = module._decorator;
+      assetManager = module.assetManager;
+    }, function (module) {
+      ConsoleLogger = module.default;
+    }],
+    execute: function () {
+      var _class, _class2;
+      cclegacy._RF.push({}, "da634jL/+pMHboatycHIV1V", "AssetManagerWrapper", undefined);
+      var ccclass = _decorator.ccclass;
+      var AssetManagerWrapper = exports('default', ccclass(_class = (_class2 = /*#__PURE__*/function () {
+        function AssetManagerWrapper() {} // Private constructor to enforce singleton
 
-System.register("chunks:///_virtual/BlockSpawner.ts",["cc","./TileItemUI.ts"],(function(t){var o,e,r,a;return{setters:[function(t){o=t.cclegacy,e=t._decorator,r=t.instantiate},function(t){a=t.TileItemUI}],execute:function(){var n;o._RF.push({},"aa257jxQllMHoFc0PQUlplH","BlockSpawner",void 0);var i=e.ccclass;e.property,t("default",i(n=function(){function t(t,o){this.blockPrefab=void 0,this.gameBoard=void 0,this.blockPrefab=t,this.gameBoard=o}var o=t.prototype;return o.spawnBlock=function(t,o){var e=r(this.blockPrefab),n=Math.floor(7*Math.random())+1;return e.getComponent(a).init({row:t,col:o,tilenumber:n}),this.gameBoard.addChild(e),e},o.spawnBlockWithNum=function(t,o,e){var n=r(this.blockPrefab);return n.getComponent(a).init({row:t,col:o,tilenumber:e}),this.gameBoard.addChild(n),n},t}())||n);o._RF.pop()}}}));
+        /**
+         * Load an Asset Bundle by name or URL.
+         * @param bundleName - Name or URL of the Asset Bundle.
+         * @param onComplete - Callback when the bundle is loaded.
+         */
+        var _proto = AssetManagerWrapper.prototype;
+        _proto.loadBundle = function loadBundle(bundleName, onComplete) {
+          assetManager.loadBundle(bundleName, function (err, bundle) {
+            if (err) {
+              ConsoleLogger.instance.error("Failed to load bundle: " + bundleName, err);
+              onComplete(err, null);
+              return;
+            }
+            ConsoleLogger.instance.info("Bundle loaded: " + bundleName);
+            onComplete(null, bundle);
+          });
+        }
 
-System.register("chunks:///_virtual/ConsoleLogger.ts",["./rollupPluginModLoBabelHelpers.js","cc"],(function(e){var t,n,o;return{setters:[function(e){t=e.createClass},function(e){n=e.cclegacy,o=e._decorator}],execute:function(){var r,i;n._RF.push({},"0d80aP1ejhGhbBbCYP2k0Yr","ConsoleLogger",void 0);var a=o.ccclass;e("default",a(((i=function(){function e(){this._logLevel=e.LOG_LEVEL.DEBUG}var n=e.prototype;return n.setLogLevel=function(e){this._logLevel=e,this.debug("Log level set to: "+e)},n.debug=function(t){if(this._logLevel<=e.LOG_LEVEL.DEBUG){for(var n,o=arguments.length,r=new Array(o>1?o-1:0),i=1;i<o;i++)r[i-1]=arguments[i];(n=console).log.apply(n,["[DEBUG] "+this.getTimestamp()+" - "+t].concat(r))}},n.info=function(t){if(this._logLevel<=e.LOG_LEVEL.INFO){for(var n,o=arguments.length,r=new Array(o>1?o-1:0),i=1;i<o;i++)r[i-1]=arguments[i];(n=console).info.apply(n,["[INFO] "+this.getTimestamp()+" - "+t].concat(r))}},n.warn=function(t){if(this._logLevel<=e.LOG_LEVEL.WARN){for(var n,o=arguments.length,r=new Array(o>1?o-1:0),i=1;i<o;i++)r[i-1]=arguments[i];(n=console).warn.apply(n,["[WARN] "+this.getTimestamp()+" - "+t].concat(r))}},n.error=function(t){if(this._logLevel<=e.LOG_LEVEL.ERROR){for(var n,o=arguments.length,r=new Array(o>1?o-1:0),i=1;i<o;i++)r[i-1]=arguments[i];(n=console).error.apply(n,["[ERROR] "+this.getTimestamp()+" - "+t].concat(r))}},n.getTimestamp=function(){var e=new Date;return e.toLocaleDateString()+" "+e.toLocaleTimeString()},t(e,null,[{key:"instance",get:function(){return this._instance||(this._instance=new e),this._instance}}]),e}())._instance=null,i.LOG_LEVEL={DEBUG:0,INFO:1,WARN:2,ERROR:3,NONE:4},r=i))||r);n._RF.pop()}}}));
+        /**
+         * Load a resource from a specific Asset Bundle.
+         * @param bundle - The Asset Bundle instance.
+         * @param path - Path to the resource within the bundle.
+         * @param type - Type of the resource (e.g., cc.Prefab, cc.Texture2D).
+         * @param onComplete - Callback when the resource is loaded.
+         */;
+        _proto.loadResource = function loadResource(bundle, path, type, onComplete) {
+          bundle.load(path, type, function (err, asset) {
+            if (err) {
+              ConsoleLogger.instance.error("Failed to load resource: " + path, err);
+              onComplete(err, null);
+              return;
+            }
+            ConsoleLogger.instance.info("Resource loaded: " + path);
+            onComplete(null, asset);
+          });
+        }
 
-System.register("chunks:///_virtual/GameBoardManager.ts",["./rollupPluginModLoBabelHelpers.js","cc","./BlockSpawner.ts","./MatchChecker.ts","./ConsoleLogger.ts","./TileItemUI.ts","./ScoreManager.ts"],(function(t){var i,e,n,o,r,a,l,s,c,u,p,f,h,d,g,m,w,b,y;return{setters:[function(t){i=t.applyDecoratedDescriptor,e=t.inheritsLoose,n=t.initializerDefineProperty,o=t.assertThisInitialized,r=t.asyncToGenerator,a=t.regeneratorRuntime},function(t){l=t.cclegacy,s=t._decorator,c=t.Prefab,u=t.Node,p=t.Button,f=t.Vec2,h=t.Component,d=t.Vec3},function(t){g=t.default},function(t){m=t.default},function(t){w=t.default},function(t){b=t.TileItemUI},function(t){y=t.default}],execute:function(){var S,k,v,B,z,C,P,T,R,M,x,I,N,L,E,U,A,G,D,V,_,F;l._RF.push({},"82f31CwLepDy4SyiPOlUCRP","GameBoardManager",void 0);var H=s.ccclass,j=s.property;t("default",(S=j(c),k=j(Number),v=j(Number),B=j(u),z=j(u),C=j(u),P=j(u),T=j(p),R=j(f),M=j(y),H((N=i((I=function(t){function i(){for(var i,e=arguments.length,r=new Array(e),a=0;a<e;a++)r[a]=arguments[a];return i=t.call.apply(t,[this].concat(r))||this,n(i,"blockPrefab",N,o(i)),n(i,"gridSize",L,o(i)),n(i,"tileSpacing",E,o(i)),n(i,"gameBoard",U,o(i)),n(i,"targetPositionBottomRow",A,o(i)),n(i,"targetPositionLeftMostCol",G,o(i)),n(i,"upcomingTileNode",D,o(i)),n(i,"playBtn",V,o(i)),n(i,"tileItemSize",_,o(i)),n(i,"scoreManager",F,o(i)),i.grid=[],i.blockSpawner=void 0,i.inputHandler=void 0,i.matchChecker=void 0,i.nextTile=void 0,i}e(i,t);var l=i.prototype;return l.start=function(){this.blockSpawner=new g(this.blockPrefab,this.gameBoard),this.matchChecker=new m(this.grid,this.scoreManager),this.playBtn.node.parent.active=!0},l.onClickPlayBtn=function(){this.playBtn.node.parent.active=!1,this.createGrid(),this.spawnInitialBlocks(),this.spawnUpcomingTile()},l.spawnUpcomingTile=function(){this.nextTile=this.blockSpawner.spawnBlock(0,0),this.nextTile.setPosition(this.upcomingTileNode.position)},l.createGrid=function(){for(var t=0;t<this.gridSize;t++){this.grid[t]=[];for(var i=0;i<this.gridSize;i++)this.grid[t][i]=null}},l.spawnInitialBlocks=function(){for(var t=Math.floor(5*Math.random()),i=0;i<3;i++)this.spawnBlockAtRandomColumn();for(var e=0;e<t;e++)this.spawnBlockAtRandomColumn()},l.spawnBlockAtRandomColumn=function(){var t=this.getRandomColumn(),i=this.findBottommostEmptyRow(t);-1!==i?this.spawnBlockSpecifiedPosition(i,t,this.blockSpawner.spawnBlock(i,t),!0):w.instance.info("All columns are full!")},l.spawnBlockSpecifiedPosition=function(){var t=r(a().mark((function t(i,e,n,o){var r,l;return a().wrap((function(t){for(;;)switch(t.prev=t.next){case 0:if(void 0===o&&(o=!1),this.grid[i][e]=n,n.setPosition(this.upcomingTileNode.position),r=new d(this.targetPositionLeftMostCol.position.x+(e*this.tileItemSize.x+this.tileSpacing),this.targetPositionBottomRow.position.y+(i*this.tileItemSize.y+this.tileSpacing),0),n.setPosition(new d(r.x,this.upcomingTileNode.position.y,this.upcomingTileNode.position.z)),1!=o){t.next=9;break}n.setPosition(r),t.next=12;break;case 9:return l=new Promise((function(t,i){n.getComponent(b).moveToPosition(r).call((function(){return t()})).start()})),t.next=12,l;case 12:this.grid=this.matchChecker.checkMatches(this.grid),this.spawnUpcomingTile();case 14:case"end":return t.stop()}}),t,this)})));return function(i,e,n,o){return t.apply(this,arguments)}}(),l.getRandomColumn=function(){return Math.floor(Math.random()*this.gridSize)},l.findBottommostEmptyRow=function(t){for(var i=t,e=0;e<this.gridSize;){for(var n=0;n<this.gridSize;n++)if(!this.grid[n][i])return n;(i=(i+1)%this.gridSize)==this.gridSize&&(i=0),e++}return-1},l.findIfValidEmptyRowExists=function(t){for(var i=t,e=0;e<this.gridSize;e++)if(!this.grid[e][i])return e;return-1},l.onColumnSelected=function(t){var i=this.findIfValidEmptyRowExists(t);-1!==i?(this.nextTile.getComponent(b).SetRowCol(i,t),this.spawnBlockSpecifiedPosition(i,t,this.nextTile)):this.playBtn.node.active=!0},l.onClickColumnSelected=function(t,i){console.log(i),this.onColumnSelected(Number(i)),this.scoreManager.updateThrows()},l.getLowestEmptyRow=function(t){for(var i=0;i<this.gridSize;i++)if(!this.grid[i][t])return i;return-1},i}(h)).prototype,"blockPrefab",[S],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),L=i(I.prototype,"gridSize",[k],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return 7}}),E=i(I.prototype,"tileSpacing",[v],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return 5}}),U=i(I.prototype,"gameBoard",[B],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),A=i(I.prototype,"targetPositionBottomRow",[z],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),G=i(I.prototype,"targetPositionLeftMostCol",[C],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),D=i(I.prototype,"upcomingTileNode",[P],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),V=i(I.prototype,"playBtn",[T],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),_=i(I.prototype,"tileItemSize",[R],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return new f(113,117)}}),F=i(I.prototype,"scoreManager",[M],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),x=I))||x));l._RF.pop()}}}));
+        /**
+         * Load a scene from a specific Asset Bundle.
+         * @param bundle - The Asset Bundle instance.
+         * @param sceneName - Name of the scene.
+         * @param onComplete - Callback when the scene is loaded.
+         */;
+        _proto.loadScene = function loadScene(bundle, sceneName, onComplete) {
+          bundle.loadScene(sceneName, function (err, scene) {
+            if (err) {
+              ConsoleLogger.instance.error("Failed to load scene: " + sceneName, err);
+              onComplete(err, null);
+              return;
+            }
+            ConsoleLogger.instance.info("Scene loaded: " + sceneName);
+            onComplete(null, scene);
+          });
+        }
 
-System.register("chunks:///_virtual/GameModels.ts",["cc"],(function(){var e;return{setters:[function(t){e=t.cclegacy}],execute:function(){e._RF.push({},"ae8f2eelOFL9ZuSj14wdVRM","GameModels",void 0),e._RF.pop()}}}));
+        /**
+         * Release a resource from the cache.
+         * @param asset - The asset to release.
+         */;
+        _proto.releaseResource = function releaseResource(asset) {
+          assetManager.releaseAsset(asset);
+          ConsoleLogger.instance.info("Resource released: " + asset.name);
+        }
 
-System.register("chunks:///_virtual/InputHandler.ts",["cc"],(function(t){var e,i,o,n;return{setters:[function(t){e=t.cclegacy,i=t._decorator,o=t.Node,n=t.view}],execute:function(){var r;e._RF.push({},"01806AhrqZPjrtODynaKKLz","InputHandler",void 0);var c=i.ccclass;i.property,t("default",c(r=function(){function t(t,e,i){this.gridSize=void 0,this.onColumnSelected=void 0,this.gridTouchNode=void 0,this.gridSize=t,this.onColumnSelected=i,this.gridTouchNode=e,this.registerInput()}var e=t.prototype;return e.registerInput=function(){this.gridTouchNode.on(o.EventType.TOUCH_START,this.onTouchStart,this)},e.onTouchStart=function(t){var e=t.getLocation(),i=Math.floor(e.x/(n.getVisibleSize().width/this.gridSize));this.onColumnSelected(i)},t}())||r);e._RF.pop()}}}));
+        /**
+         * Release all resources in a specific Asset Bundle.
+         * @param bundle - The Asset Bundle instance.
+         */;
+        _proto.releaseBundle = function releaseBundle(bundle) {
+          bundle.releaseAll();
+          ConsoleLogger.instance.info("All resources released from bundle: " + bundle.name);
+        }
 
-System.register("chunks:///_virtual/ISignal.ts",["cc"],(function(){var t;return{setters:[function(c){t=c.cclegacy}],execute:function(){t._RF.push({},"804a4PjX8hFmpusgUCG4lfo","ISignal",void 0),t._RF.pop()}}}));
+        /**
+         * Remove an Asset Bundle from the cache.
+         * @param bundle - The Asset Bundle instance.
+         */;
+        _proto.removeBundle = function removeBundle(bundle) {
+          assetManager.removeBundle(bundle);
+          ConsoleLogger.instance.info("Bundle removed: " + bundle.name);
+        };
+        _createClass(AssetManagerWrapper, null, [{
+          key: "instance",
+          get:
+          // Singleton pattern to ensure a single instance
+          function get() {
+            if (!this._instance) {
+              this._instance = new AssetManagerWrapper();
+            }
+            return this._instance;
+          }
+        }]);
+        return AssetManagerWrapper;
+      }(), _class2._instance = null, _class2)) || _class);
+      cclegacy._RF.pop();
+    }
+  };
+});
 
-System.register("chunks:///_virtual/LevelCompleteScreen.ts",["./rollupPluginModLoBabelHelpers.js","cc"],(function(e){var r,t,n,i,o,c,a,l;return{setters:[function(e){r=e.applyDecoratedDescriptor,t=e.inheritsLoose,n=e.initializerDefineProperty,i=e.assertThisInitialized},function(e){o=e.cclegacy,c=e._decorator,a=e.Label,l=e.Component}],execute:function(){var u,s,p,h,g,b,f;o._RF.push({},"a275eJ8Jj1HW5YVy6roQLDX","LevelCompleteScreen",void 0);var L=c.ccclass,S=c.property;e("LevelCompleteScreen",(u=L("LevelCompleteScreen"),s=S(a),p=S(a),u((b=r((g=function(e){function r(){for(var r,t=arguments.length,o=new Array(t),c=0;c<t;c++)o[c]=arguments[c];return r=e.call.apply(e,[this].concat(o))||this,n(r,"currentScoreLabel",b,i(r)),n(r,"highScoreLabel",f,i(r)),r.scoreManager=null,r.highScoreOld=0,r}t(r,e);var o=r.prototype;return o.init=function(e){this.scoreManager=e},o.start=function(){},o.onEnable=function(){this.updateUI()},o.updateUI=function(){this.scoreManager.getScore()>0?this.currentScoreLabel.node.active=!0:this.currentScoreLabel.node.active=!1,this.scoreManager.getHighScore()>0?this.highScoreLabel.node.active=!0:this.highScoreLabel.node.active=!1},o.update=function(e){},r}(l)).prototype,"currentScoreLabel",[s],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),f=r(g.prototype,"highScoreLabel",[p],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),h=g))||h));o._RF.pop()}}}));
+System.register("chunks:///_virtual/BlockSpawner.ts", ['cc', './TileItemUI.ts'], function (exports) {
+  var cclegacy, _decorator, instantiate, TileItemUI;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+      _decorator = module._decorator;
+      instantiate = module.instantiate;
+    }, function (module) {
+      TileItemUI = module.TileItemUI;
+    }],
+    execute: function () {
+      var _class;
+      cclegacy._RF.push({}, "aa257jxQllMHoFc0PQUlplH", "BlockSpawner", undefined);
+      var ccclass = _decorator.ccclass,
+        property = _decorator.property;
+      var BlockSpawner = exports('default', ccclass(_class = /*#__PURE__*/function () {
+        function BlockSpawner(blockPrefab, gameBoard) {
+          this.blockPrefab = void 0;
+          this.gameBoard = void 0;
+          this.blockPrefab = blockPrefab;
+          this.gameBoard = gameBoard;
+        }
+        var _proto = BlockSpawner.prototype;
+        _proto.spawnBlock = function spawnBlock(r, c) {
+          var block = instantiate(this.blockPrefab);
+          var randomNumber = Math.floor(Math.random() * 7) + 1;
+          block.getComponent(TileItemUI).init({
+            row: r,
+            col: c,
+            tilenumber: randomNumber
+          });
+          this.gameBoard.addChild(block);
+          return block;
+        };
+        _proto.spawnBlockWithNum = function spawnBlockWithNum(r, c, num) {
+          var block = instantiate(this.blockPrefab);
+          block.getComponent(TileItemUI).init({
+            row: r,
+            col: c,
+            tilenumber: num
+          });
+          this.gameBoard.addChild(block);
+          return block;
+        };
+        return BlockSpawner;
+      }()) || _class);
+      cclegacy._RF.pop();
+    }
+  };
+});
 
-System.register("chunks:///_virtual/main",["./GameBoardManager.ts","./BlockSpawner.ts","./InputHandler.ts","./MatchChecker.ts","./ScoreManager.ts","./TileItemUI.ts","./GameModels.ts","./LevelCompleteScreen.ts","./AssetManagerWrapper.ts","./ConsoleLogger.ts","./ISignal.ts","./Signal.ts","./TweenAnimations.ts"],(function(){return{setters:[null,null,null,null,null,null,null,null,null,null,null,null,null],execute:function(){}}}));
+System.register("chunks:///_virtual/ConsoleLogger.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc'], function (exports) {
+  var _createClass, cclegacy, _decorator;
+  return {
+    setters: [function (module) {
+      _createClass = module.createClass;
+    }, function (module) {
+      cclegacy = module.cclegacy;
+      _decorator = module._decorator;
+    }],
+    execute: function () {
+      var _class, _class2;
+      cclegacy._RF.push({}, "0d80aP1ejhGhbBbCYP2k0Yr", "ConsoleLogger", undefined);
+      var ccclass = _decorator.ccclass;
+      var ConsoleLogger = exports('default', ccclass(_class = (_class2 = /*#__PURE__*/function () {
+        function ConsoleLogger() {
+          this._logLevel = ConsoleLogger.LOG_LEVEL.DEBUG;
+        } // Private constructor to enforce singleton
 
-System.register("chunks:///_virtual/MatchChecker.ts",["./rollupPluginModLoBabelHelpers.js","cc","./Signal.ts","./TileItemUI.ts"],(function(e){var t,r,n,o,i,s,c;return{setters:[function(e){t=e.createClass,r=e.asyncToGenerator,n=e.regeneratorRuntime},function(e){o=e.cclegacy,i=e._decorator},function(e){s=e.Signal},function(e){c=e.TileItemUI}],execute:function(){var h;o._RF.push({},"42323htlf9K0Jl18bP/rHmD","MatchChecker",void 0);var l=i.ccclass;i.property,e("default",l(h=function(){function e(e,t){this.grid=void 0,this.onTileMerged=new s,this.scoreManager=void 0,this.grid=e,this.scoreManager=t}var o=e.prototype;return o.checkMatches=function(e){this.grid=e;for(var t=0;t<this.grid.length;t++)this.checkRow(t);for(var r=0;r<this.grid[0].length;r++)this.checkColumn(r);return this.grid},o.checkRow=function(e){for(var t=0,r=[],n=0;n<this.grid[e].length;n++){var o=this.grid[e][n];if(o){var i=o.getComponent(c).TileNum;0===r.length?(t=i,r.push(o)):(t+=i,r.push(o)),10===t?(this.removeMatchedBlocks(r),t=0,r=[]):r.length>1&&i===r[r.length-2].getComponent(c).TileNum&&(this.removeMatchedBlocks([o,r[r.length-2]]),t=0,r=[])}else t=0,r=[]}},o.checkColumn=function(e){for(var t=0,r=[],n=0;n<this.grid.length;n++){var o=this.grid[n][e];if(o){var i=o.getComponent(c).TileNum;0===r.length?t=i:t+=i,r.push(o),10===t?(this.removeMatchedBlocks(r),t=0,r=[]):r.length>1&&i===r[r.length-2].getComponent(c).TileNum&&(this.removeMatchedBlocks([o,r[r.length-2]]),t=(t-=i+r[r.length-2].getComponent(c).TileNum)<0?0:t,r.pop(),r.pop())}else t=0,r=[]}},o.removeMatchedBlocks=function(){var e=r(n().mark((function e(t){var r,o,i,s,h;return n().wrap((function(e){for(;;)switch(e.prev=e.next){case 0:for(r=[],o=5*t.length,i=0;i<t.length;i++)s=t[i],h=s.getComponent(c),r.push(h.destroyTile()),this.grid[h.Row][h.Col]=null,this.scoreManager.showScoreTooltip(s,5);return e.next=5,Promise.all(r);case 5:this.scoreManager.addScore(o);case 6:case"end":return e.stop()}}),e,this)})));return function(t){return e.apply(this,arguments)}}(),t(e,[{key:"OnTileMerged",get:function(){return this.onTileMerged}}]),e}())||h);o._RF.pop()}}}));
+        /**
+         * Set the log level.
+         * @param level - The log level (e.g., ConsoleLogger.LOG_LEVEL.INFO).
+         */
+        var _proto = ConsoleLogger.prototype;
+        _proto.setLogLevel = function setLogLevel(level) {
+          this._logLevel = level;
+          this.debug("Log level set to: " + level);
+        }
 
-System.register("chunks:///_virtual/ScoreManager.ts",["./rollupPluginModLoBabelHelpers.js","cc"],(function(e){var t,r,o,i,n,c,a,h,s,l,u,g,S;return{setters:[function(e){t=e.applyDecoratedDescriptor,r=e.inheritsLoose,o=e.initializerDefineProperty,i=e.assertThisInitialized},function(e){n=e.cclegacy,c=e._decorator,a=e.Label,h=e.Prefab,s=e.sys,l=e.instantiate,u=e.Vec3,g=e.tween,S=e.Component}],execute:function(){var p,f,b,d,w,v,y,C,L,I,m,H,z;n._RF.push({},"47db7mQq/FDN4IRsIzGX+hp","ScoreManager",void 0);var P=c.ccclass,U=c.property;e("default",(p=P("ScoreManager"),f=U(a),b=U(a),d=U(a),w=U(a),v=U(h),p((L=t((C=function(e){function t(){for(var t,r=arguments.length,n=new Array(r),c=0;c<r;c++)n[c]=arguments[c];return t=e.call.apply(e,[this].concat(n))||this,o(t,"scoreLabel",L,i(t)),o(t,"highScoreLabel",I,i(t)),o(t,"throwsCntLabel",m,i(t)),o(t,"levelLabel",H,i(t)),o(t,"tooltipPrefab",z,i(t)),t.currentScore=0,t.highScore=0,t.throwCounter=0,t.levelCounter=0,t.savedHighScore=0,t.highScoreKey="highScore",t}r(t,e);var n=t.prototype;return n.start=function(){this.loadhighScore(),this.updateUI()},n.loadhighScore=function(){var e=this.loadHighScore();this.savedHighScore=e,this.highScore=e||0,this.throwCounter=10,this.levelCounter=1},n.loadHighScore=function(){try{if(s.localStorage)return parseInt(s.localStorage.getItem(this.highScoreKey))||0}catch(e){return console.warn("Storage access error. Returning 0 as high score:",e),0}},n.addScore=function(e){this.currentScore+=e,this.currentScore>this.highScore&&(this.highScore=this.currentScore,this.saveHighScore()),this.updateUI()},n.updateThrows=function(){this.throwCounter--,this.throwCounter<=0&&(this.throwCounter=0,this.levelCounter++),this.updateUI()},n.saveHighScore=function(){try{s.localStorage&&(s.localStorage.setItem(this.highScoreKey,this.highScore.toString()),console.log("New High Score Saved:",this.highScore))}catch(e){console.warn("Storage access error. High score not saved:",e)}},n.resetScore=function(){this.currentScore=0,this.updateUI()},n.updateUI=function(){this.scoreLabel.string=""+this.currentScore,this.highScoreLabel.string=""+this.highScore,this.throwsCntLabel.string=""+this.throwCounter,this.levelLabel.string=""+this.levelCounter},n.getScore=function(){return this.currentScore},n.getHighScore=function(){return this.highScore},n.showScoreTooltip=function(e,t){if(this.tooltipPrefab){var r=l(this.tooltipPrefab);r.getComponentInChildren(a).string="+"+t,r.setParent(e.parent),r.setPosition(new u(e.position.x,e.position.y+100,e.position.z)),g(r).to(.5,{position:new u(e.position.x,e.position.y+100,0)}).call((function(){return r.destroy()})).start()}},t}(S)).prototype,"scoreLabel",[f],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),I=t(C.prototype,"highScoreLabel",[b],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),m=t(C.prototype,"throwsCntLabel",[d],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),H=t(C.prototype,"levelLabel",[w],{configurable:!0,enumerable:!0,writable:!0,initializer:function(){return null}}),z=t(C.prototype,"tooltipPrefab",[v],{configurable:!0,enumerable:!0,writable:!0,initializer:null}),y=C))||y));n._RF.pop()}}}));
+        /**
+         * Log a debug message.
+         * @param message - The message to log.
+         * @param optionalParams - Additional parameters to log.
+         */;
+        _proto.debug = function debug(message) {
+          if (this._logLevel <= ConsoleLogger.LOG_LEVEL.DEBUG) {
+            var _console;
+            for (var _len = arguments.length, optionalParams = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+              optionalParams[_key - 1] = arguments[_key];
+            }
+            (_console = console).log.apply(_console, ["[DEBUG] " + this.getTimestamp() + " - " + message].concat(optionalParams));
+          }
+        }
 
-System.register("chunks:///_virtual/Signal.ts",["cc"],(function(t){var s;return{setters:[function(t){s=t.cclegacy}],execute:function(){s._RF.push({},"190a6ch2CNA/43GIE/jtCi0","Signal",void 0);t("Signal",function(){function t(){this.handlers=[],this.thisArgs=[]}var s=t.prototype;return s.on=function(t,s){this.handlers.push(t),this.thisArgs.push(s)},s.off=function(t){var s=this.handlers.indexOf(t);this.handlers.splice(s,1),this.thisArgs.splice(s,1)},s.trigger=function(t){for(var s=[].concat(this.handlers),i=[].concat(this.thisArgs),n=0;n<s.length;n++)s[n].call(i[n],t)},t}());s._RF.pop()}}}));
+        /**
+         * Log an info message.
+         * @param message - The message to log.
+         * @param optionalParams - Additional parameters to log.
+         */;
+        _proto.info = function info(message) {
+          if (this._logLevel <= ConsoleLogger.LOG_LEVEL.INFO) {
+            var _console2;
+            for (var _len2 = arguments.length, optionalParams = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+              optionalParams[_key2 - 1] = arguments[_key2];
+            }
+            (_console2 = console).info.apply(_console2, ["[INFO] " + this.getTimestamp() + " - " + message].concat(optionalParams));
+          }
+        }
 
-System.register("chunks:///_virtual/TileItemUI.ts",["./rollupPluginModLoBabelHelpers.js","cc","./Signal.ts","./ConsoleLogger.ts","./TweenAnimations.ts"],(function(e){var t,n,i,o,r,l,c,s,u,a,f,h,p,m,v,d;return{setters:[function(e){t=e.applyDecoratedDescriptor,n=e.inheritsLoose,i=e.createClass,o=e.initializerDefineProperty,r=e.assertThisInitialized,l=e.asyncToGenerator,c=e.regeneratorRuntime},function(e){s=e.cclegacy,u=e._decorator,a=e.Label,f=e.Button,h=e.tween,p=e.Component},function(e){m=e.Signal},function(e){v=e.default},function(e){d=e.default}],execute:function(){var y,g,T,w,I,_,b;s._RF.push({},"f7c88RVshdAqZbpSaN40N4d","TileItemUI",void 0);var k=u.ccclass,C=u.property;e("TileItemUI",(y=k("TileItemUI"),g=C(a),T=C(f),y((_=t((I=function(e){function t(){for(var t,n=arguments.length,i=new Array(n),l=0;l<n;l++)i[l]=arguments[l];return t=e.call.apply(e,[this].concat(i))||this,o(t,"numberText",_,r(t)),o(t,"btn",b,r(t)),t._row=void 0,t._col=void 0,t._tileNum=void 0,t.onTileItemClickedEvent=new m,t.onTileSettledInPlaceEvent=new m,t}n(t,e);var s=t.prototype;return s.init=function(e){this._row=e.row,this._col=e.col,this._tileNum=e.tilenumber,this.numberText.string=this._tileNum.toString()},s.SetRowCol=function(e,t){this._row=e,this._col=t},s.onTileClick=function(){this.onTileItemClickedEvent.trigger(this)},s.destroyTile=function(){var e=l(c().mark((function e(){return c().wrap((function(e){for(;;)switch(e.prev=e.next){case 0:return e.next=2,this.playDestoryAnim();case 2:case"end":return e.stop()}}),e,this)})));return function(){return e.apply(this,arguments)}}(),s.playDestoryAnim=function(){var e=l(c().mark((function e(){var t,n=this;return c().wrap((function(e){for(;;)switch(e.prev=e.next){case 0:return t=new Promise((function(e,t){d.shake(30,.5,n.node).call((function(){return e()})).start()})),e.next=3,t;case 3:this.node.active=!1,this.destroy();case 5:case"end":return e.stop()}}),e,this)})));return function(){return e.apply(this,arguments)}}(),s.moveToPosition=function(e){var t=this;return h(this.node).to(1,{position:e}).call((function(){return t.onMoveComplete()}))},s.onMoveComplete=function(){v.instance.info("Block moved to position!"),this.onTileSettledInPlaceEvent.trigger(this)},i(t,[{key:"Row",get:function(){return this._row}},{key:"Col",get:function(){return this._col}},{key:"TileNum",get:function(){return this._tileNum}},{key:"OnTileItemClickedEvent",get:function(){return this.onTileItemClickedEvent}},{key:"OnTileSettledInPlaceEvent",get:function(){return this.onTileSettledInPlaceEvent}}]),t}(p)).prototype,"numberText",[g],{configurable:!0,enumerable:!0,writable:!0,initializer:null}),b=t(I.prototype,"btn",[T],{configurable:!0,enumerable:!0,writable:!0,initializer:null}),w=I))||w));s._RF.pop()}}}));
+        /**
+         * Log a warning message.
+         * @param message - The message to log.
+         * @param optionalParams - Additional parameters to log.
+         */;
+        _proto.warn = function warn(message) {
+          if (this._logLevel <= ConsoleLogger.LOG_LEVEL.WARN) {
+            var _console3;
+            for (var _len3 = arguments.length, optionalParams = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+              optionalParams[_key3 - 1] = arguments[_key3];
+            }
+            (_console3 = console).warn.apply(_console3, ["[WARN] " + this.getTimestamp() + " - " + message].concat(optionalParams));
+          }
+        }
 
-System.register("chunks:///_virtual/TweenAnimations.ts",["cc"],(function(n){var e,t,a;return{setters:[function(n){e=n.cclegacy,t=n._decorator,a=n.tween}],execute:function(){var o;e._RF.push({},"a6fa7Gt6x1NeLk0LEt8caUL","TweenAnimations",void 0);var c=t.ccclass;n("default",c(o=function(){function n(){}return n.shake=function(n,e,t){void 0===n&&(n=2),void 0===e&&(e=.5);var o=t.angle;return a(t).to(e/6,{angle:o+n}).to(e/6,{angle:o-n}).to(e/6,{angle:o+n}).to(e/6,{angle:o-n}).to(e/6,{angle:o+n}).to(e/6,{angle:o})},n}())||o);e._RF.pop()}}}));
+        /**
+         * Log an error message.
+         * @param message - The message to log.
+         * @param optionalParams - Additional parameters to log.
+         */;
+        _proto.error = function error(message) {
+          if (this._logLevel <= ConsoleLogger.LOG_LEVEL.ERROR) {
+            var _console4;
+            for (var _len4 = arguments.length, optionalParams = new Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+              optionalParams[_key4 - 1] = arguments[_key4];
+            }
+            (_console4 = console).error.apply(_console4, ["[ERROR] " + this.getTimestamp() + " - " + message].concat(optionalParams));
+          }
+        }
+
+        /**
+         * Get the current timestamp in a readable format.
+         * @returns The formatted timestamp.
+         */;
+        _proto.getTimestamp = function getTimestamp() {
+          var now = new Date();
+          return now.toLocaleDateString() + " " + now.toLocaleTimeString();
+        };
+        _createClass(ConsoleLogger, null, [{
+          key: "instance",
+          get:
+          // Default log level
+          // Singleton pattern to ensure a single instance
+          function get() {
+            if (!this._instance) {
+              this._instance = new ConsoleLogger();
+            }
+            return this._instance;
+          }
+        }]);
+        return ConsoleLogger;
+      }(), _class2._instance = null, _class2.LOG_LEVEL = {
+        DEBUG: 0,
+        INFO: 1,
+        WARN: 2,
+        ERROR: 3,
+        NONE: 4 // Disables all logging
+      }, _class2)) || _class);
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/GameBoardManager.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './BlockSpawner.ts', './MatchChecker.ts', './ConsoleLogger.ts', './TileItemUI.ts', './ScoreManager.ts'], function (exports) {
+  var _applyDecoratedDescriptor, _inheritsLoose, _initializerDefineProperty, _assertThisInitialized, _asyncToGenerator, _regeneratorRuntime, cclegacy, _decorator, Prefab, Node, Button, Vec2, Component, Vec3, BlockSpawner, MatchChecker, ConsoleLogger, TileItemUI, ScoreManager;
+  return {
+    setters: [function (module) {
+      _applyDecoratedDescriptor = module.applyDecoratedDescriptor;
+      _inheritsLoose = module.inheritsLoose;
+      _initializerDefineProperty = module.initializerDefineProperty;
+      _assertThisInitialized = module.assertThisInitialized;
+      _asyncToGenerator = module.asyncToGenerator;
+      _regeneratorRuntime = module.regeneratorRuntime;
+    }, function (module) {
+      cclegacy = module.cclegacy;
+      _decorator = module._decorator;
+      Prefab = module.Prefab;
+      Node = module.Node;
+      Button = module.Button;
+      Vec2 = module.Vec2;
+      Component = module.Component;
+      Vec3 = module.Vec3;
+    }, function (module) {
+      BlockSpawner = module.default;
+    }, function (module) {
+      MatchChecker = module.default;
+    }, function (module) {
+      ConsoleLogger = module.default;
+    }, function (module) {
+      TileItemUI = module.TileItemUI;
+    }, function (module) {
+      ScoreManager = module.default;
+    }],
+    execute: function () {
+      var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10;
+      cclegacy._RF.push({}, "82f31CwLepDy4SyiPOlUCRP", "GameBoardManager", undefined);
+      var ccclass = _decorator.ccclass,
+        property = _decorator.property;
+      var GameBoardManager = exports('default', (_dec = property(Prefab), _dec2 = property(Number), _dec3 = property(Number), _dec4 = property(Node), _dec5 = property(Node), _dec6 = property(Node), _dec7 = property(Node), _dec8 = property(Button), _dec9 = property(Vec2), _dec10 = property(ScoreManager), ccclass(_class = (_class2 = /*#__PURE__*/function (_Component) {
+        _inheritsLoose(GameBoardManager, _Component);
+        function GameBoardManager() {
+          var _this;
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+          _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+          _initializerDefineProperty(_this, "blockPrefab", _descriptor, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "gridSize", _descriptor2, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "tileSpacing", _descriptor3, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "gameBoard", _descriptor4, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "targetPositionBottomRow", _descriptor5, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "targetPositionLeftMostCol", _descriptor6, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "upcomingTileNode", _descriptor7, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "playBtn", _descriptor8, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "tileItemSize", _descriptor9, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "scoreManager", _descriptor10, _assertThisInitialized(_this));
+          _this.grid = [];
+          _this.blockSpawner = void 0;
+          _this.inputHandler = void 0;
+          _this.matchChecker = void 0;
+          _this.nextTile = void 0;
+          return _this;
+        }
+        var _proto = GameBoardManager.prototype;
+        /*
+        create game states 
+        -> Initalizing
+        -> 
+         */
+        _proto.start = function start() {
+          this.blockSpawner = new BlockSpawner(this.blockPrefab, this.gameBoard);
+          // this.inputHandler = new InputHandler(this.gridSize, this.gameBoard, this.onColumnSelected.bind(this));
+          this.matchChecker = new MatchChecker(this.grid, this.scoreManager);
+          this.playBtn.node.parent.active = true;
+        };
+        _proto.onClickPlayBtn = function onClickPlayBtn() {
+          this.playBtn.node.parent.active = false;
+          this.createGrid();
+          this.spawnInitialBlocks();
+          this.spawnUpcomingTile();
+        };
+        _proto.spawnUpcomingTile = function spawnUpcomingTile() {
+          this.nextTile = this.blockSpawner.spawnBlock(0, 0);
+          this.nextTile.setPosition(this.upcomingTileNode.position);
+        };
+        _proto.createGrid = function createGrid() {
+          for (var i = 0; i < this.gridSize; i++) {
+            this.grid[i] = [];
+            for (var j = 0; j < this.gridSize; j++) {
+              this.grid[i][j] = null;
+            }
+          }
+        };
+        _proto.spawnInitialBlocks = function spawnInitialBlocks() {
+          var noOfTilesToSpawn = Math.floor(Math.random() * 5);
+          for (var i = 0; i < 3; i++) {
+            this.spawnBlockAtRandomColumn();
+          }
+          for (var _i = 0; _i < noOfTilesToSpawn; _i++) {
+            this.spawnBlockAtRandomColumn();
+          }
+        };
+        _proto.spawnBlockAtRandomColumn = function spawnBlockAtRandomColumn() {
+          var column = this.getRandomColumn();
+          var row = this.findBottommostEmptyRow(column);
+          if (row === -1) {
+            ConsoleLogger.instance.info("All columns are full!");
+            return;
+          }
+          this.spawnBlockSpecifiedPosition(row, column, this.blockSpawner.spawnBlock(row, column), true);
+        };
+        _proto.spawnBlockSpecifiedPosition = /*#__PURE__*/function () {
+          var _spawnBlockSpecifiedPosition = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(row, column, block, skipAnim) {
+            var targetPosition, prm;
+            return _regeneratorRuntime().wrap(function _callee$(_context) {
+              while (1) switch (_context.prev = _context.next) {
+                case 0:
+                  if (skipAnim === void 0) {
+                    skipAnim = false;
+                  }
+                  this.grid[row][column] = block;
+                  block.setPosition(this.upcomingTileNode.position);
+                  // Move the block to its target position
+                  targetPosition = new Vec3(this.targetPositionLeftMostCol.position.x + (column * this.tileItemSize.x + this.tileSpacing), this.targetPositionBottomRow.position.y + (row * this.tileItemSize.y + this.tileSpacing), 0); // Adjust based on your grid cell size
+                  // block.getComponent(TileItemUI).moveToPosition(targetPosition);
+                  block.setPosition(new Vec3(targetPosition.x, this.upcomingTileNode.position.y, this.upcomingTileNode.position.z));
+                  if (!(skipAnim == true)) {
+                    _context.next = 9;
+                    break;
+                  }
+                  block.setPosition(targetPosition);
+                  _context.next = 12;
+                  break;
+                case 9:
+                  prm = new Promise(function (resolve, reject) {
+                    block.getComponent(TileItemUI).moveToPosition(targetPosition).call(function () {
+                      return resolve();
+                    }).start();
+                  });
+                  _context.next = 12;
+                  return prm;
+                case 12:
+                  this.grid = this.matchChecker.checkMatches(this.grid);
+                  this.spawnUpcomingTile();
+                case 14:
+                case "end":
+                  return _context.stop();
+              }
+            }, _callee, this);
+          }));
+          function spawnBlockSpecifiedPosition(_x, _x2, _x3, _x4) {
+            return _spawnBlockSpecifiedPosition.apply(this, arguments);
+          }
+          return spawnBlockSpecifiedPosition;
+        }();
+        _proto.getRandomColumn = function getRandomColumn() {
+          return Math.floor(Math.random() * this.gridSize);
+        };
+        _proto.findBottommostEmptyRow = function findBottommostEmptyRow(startColumn) {
+          var column = startColumn;
+          var attempts = 0;
+          while (attempts < this.gridSize) {
+            for (var row = 0; row < this.gridSize; row++) {
+              if (!this.grid[row][column]) {
+                return row;
+              }
+            }
+            column = (column + 1) % this.gridSize;
+            if (column == this.gridSize) {
+              column = 0;
+            }
+            attempts++;
+          }
+          return -1; // All columns are full
+        };
+
+        _proto.findIfValidEmptyRowExists = function findIfValidEmptyRowExists(startColumn) {
+          var column = startColumn;
+          for (var row = 0; row < this.gridSize; row++) {
+            if (!this.grid[row][column]) {
+              return row;
+            }
+          }
+          return -1; // All rows are full
+        };
+
+        _proto.onColumnSelected = function onColumnSelected(column) {
+          var row = this.findIfValidEmptyRowExists(column);
+          if (row === -1) {
+            this.playBtn.node.active = true;
+            return;
+          }
+          this.nextTile.getComponent(TileItemUI).SetRowCol(row, column);
+          this.spawnBlockSpecifiedPosition(row, column, this.nextTile);
+        };
+        _proto.onClickColumnSelected = function onClickColumnSelected(event, customEventData) {
+          console.log(customEventData);
+          this.onColumnSelected(Number(customEventData));
+          this.scoreManager.updateThrows();
+        };
+        _proto.getLowestEmptyRow = function getLowestEmptyRow(column) {
+          for (var row = 0; row < this.gridSize; row++) {
+            if (!this.grid[row][column]) {
+              return row;
+            }
+          }
+          return -1;
+        };
+        return GameBoardManager;
+      }(Component), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "blockPrefab", [_dec], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "gridSize", [_dec2], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return 7;
+        }
+      }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "tileSpacing", [_dec3], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return 5;
+        }
+      }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "gameBoard", [_dec4], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "targetPositionBottomRow", [_dec5], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, "targetPositionLeftMostCol", [_dec6], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, "upcomingTileNode", [_dec7], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, "playBtn", [_dec8], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _descriptor9 = _applyDecoratedDescriptor(_class2.prototype, "tileItemSize", [_dec9], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return new Vec2(113, 117);
+        }
+      }), _descriptor10 = _applyDecoratedDescriptor(_class2.prototype, "scoreManager", [_dec10], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      })), _class2)) || _class));
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/GameModels.ts", ['cc'], function () {
+  var cclegacy;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "ae8f2eelOFL9ZuSj14wdVRM", "GameModels", undefined);
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/InputHandler.ts", ['cc'], function (exports) {
+  var cclegacy, _decorator, Node, view;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+      _decorator = module._decorator;
+      Node = module.Node;
+      view = module.view;
+    }],
+    execute: function () {
+      var _class;
+      cclegacy._RF.push({}, "01806AhrqZPjrtODynaKKLz", "InputHandler", undefined);
+      var ccclass = _decorator.ccclass,
+        property = _decorator.property;
+      var InputHandler = exports('default', ccclass(_class = /*#__PURE__*/function () {
+        function InputHandler(gridSize, gridTouchNode, onColumnSelected) {
+          this.gridSize = void 0;
+          this.onColumnSelected = void 0;
+          this.gridTouchNode = void 0;
+          this.gridSize = gridSize;
+          this.onColumnSelected = onColumnSelected;
+          this.gridTouchNode = gridTouchNode;
+          this.registerInput();
+        }
+        var _proto = InputHandler.prototype;
+        _proto.registerInput = function registerInput() {
+          this.gridTouchNode.on(Node.EventType.TOUCH_START, this.onTouchStart, this);
+        };
+        _proto.onTouchStart = function onTouchStart(event) {
+          var touchPos = event.getLocation();
+          var column = Math.floor(touchPos.x / (view.getVisibleSize().width / this.gridSize));
+          this.onColumnSelected(column);
+        };
+        return InputHandler;
+      }()) || _class);
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/ISignal.ts", ['cc'], function () {
+  var cclegacy;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "804a4PjX8hFmpusgUCG4lfo", "ISignal", undefined);
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/LevelCompleteScreen.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc'], function (exports) {
+  var _applyDecoratedDescriptor, _inheritsLoose, _initializerDefineProperty, _assertThisInitialized, cclegacy, _decorator, Label, Component;
+  return {
+    setters: [function (module) {
+      _applyDecoratedDescriptor = module.applyDecoratedDescriptor;
+      _inheritsLoose = module.inheritsLoose;
+      _initializerDefineProperty = module.initializerDefineProperty;
+      _assertThisInitialized = module.assertThisInitialized;
+    }, function (module) {
+      cclegacy = module.cclegacy;
+      _decorator = module._decorator;
+      Label = module.Label;
+      Component = module.Component;
+    }],
+    execute: function () {
+      var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2;
+      cclegacy._RF.push({}, "a275eJ8Jj1HW5YVy6roQLDX", "LevelCompleteScreen", undefined);
+      var ccclass = _decorator.ccclass,
+        property = _decorator.property;
+      var LevelCompleteScreen = exports('LevelCompleteScreen', (_dec = ccclass('LevelCompleteScreen'), _dec2 = property(Label), _dec3 = property(Label), _dec(_class = (_class2 = /*#__PURE__*/function (_Component) {
+        _inheritsLoose(LevelCompleteScreen, _Component);
+        function LevelCompleteScreen() {
+          var _this;
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+          _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+          _initializerDefineProperty(_this, "currentScoreLabel", _descriptor, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "highScoreLabel", _descriptor2, _assertThisInitialized(_this));
+          _this.scoreManager = null;
+          _this.highScoreOld = 0;
+          return _this;
+        }
+        var _proto = LevelCompleteScreen.prototype;
+        _proto.init = function init(scoreManager) {
+          this.scoreManager = scoreManager;
+        };
+        _proto.start = function start() {};
+        _proto.onEnable = function onEnable() {
+          this.updateUI();
+        };
+        _proto.updateUI = function updateUI() {
+          if (this.scoreManager.getScore() > 0) {
+            this.currentScoreLabel.node.active = true;
+          } else {
+            this.currentScoreLabel.node.active = false;
+          }
+          if (this.scoreManager.getHighScore() > 0) {
+            this.highScoreLabel.node.active = true;
+          } else {
+            this.highScoreLabel.node.active = false;
+          }
+        };
+        _proto.update = function update(deltaTime) {};
+        return LevelCompleteScreen;
+      }(Component), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "currentScoreLabel", [_dec2], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "highScoreLabel", [_dec3], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      })), _class2)) || _class));
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/main", ['./GameBoardManager.ts', './BlockSpawner.ts', './InputHandler.ts', './MatchChecker.ts', './ScoreManager.ts', './TileItemUI.ts', './GameModels.ts', './LevelCompleteScreen.ts', './AssetManagerWrapper.ts', './ConsoleLogger.ts', './ISignal.ts', './Signal.ts', './TweenAnimations.ts'], function () {
+  return {
+    setters: [null, null, null, null, null, null, null, null, null, null, null, null, null],
+    execute: function () {}
+  };
+});
+
+System.register("chunks:///_virtual/MatchChecker.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './Signal.ts', './TileItemUI.ts'], function (exports) {
+  var _createClass, _asyncToGenerator, _regeneratorRuntime, cclegacy, _decorator, Signal, TileItemUI;
+  return {
+    setters: [function (module) {
+      _createClass = module.createClass;
+      _asyncToGenerator = module.asyncToGenerator;
+      _regeneratorRuntime = module.regeneratorRuntime;
+    }, function (module) {
+      cclegacy = module.cclegacy;
+      _decorator = module._decorator;
+    }, function (module) {
+      Signal = module.Signal;
+    }, function (module) {
+      TileItemUI = module.TileItemUI;
+    }],
+    execute: function () {
+      var _class;
+      cclegacy._RF.push({}, "42323htlf9K0Jl18bP/rHmD", "MatchChecker", undefined);
+      var ccclass = _decorator.ccclass,
+        property = _decorator.property;
+      var MatchChecker = exports('default', ccclass(_class = /*#__PURE__*/function () {
+        function MatchChecker(grid, scoreManager) {
+          this.grid = void 0;
+          this.onTileMerged = new Signal();
+          this.scoreManager = void 0;
+          this.grid = grid;
+          this.scoreManager = scoreManager;
+        }
+        var _proto = MatchChecker.prototype;
+        _proto.checkMatches = function checkMatches(grid) {
+          this.grid = grid;
+          for (var row = 0; row < this.grid.length; row++) {
+            this.checkRow(row);
+          }
+          for (var col = 0; col < this.grid[0].length; col++) {
+            this.checkColumn(col);
+          }
+          return this.grid;
+        };
+        _proto.checkRow = function checkRow(row) {
+          var sum = 0;
+          var matchedBlocks = [];
+          for (var col = 0; col < this.grid[row].length; col++) {
+            var block = this.grid[row][col];
+            if (!block) {
+              sum = 0;
+              matchedBlocks = [];
+              continue;
+            }
+            var tileItem = block.getComponent(TileItemUI);
+            var number = tileItem.TileNum;
+            if (matchedBlocks.length === 0) {
+              sum = number;
+              matchedBlocks.push(block);
+            } else {
+              sum += number;
+              matchedBlocks.push(block);
+            }
+
+            // If we found a sum of 10 or matching numbers, remove them
+            if (sum === 10) {
+              this.removeMatchedBlocks(matchedBlocks);
+              sum = 0;
+              matchedBlocks = [];
+            } else if (matchedBlocks.length > 1 && number === matchedBlocks[matchedBlocks.length - 2].getComponent(TileItemUI).TileNum) {
+              this.removeMatchedBlocks([block, matchedBlocks[matchedBlocks.length - 2]]);
+              sum = 0;
+              matchedBlocks = [];
+            }
+          }
+        };
+        _proto.checkColumn = function checkColumn(col) {
+          var sum = 0;
+          var matchedBlocks = [];
+          for (var row = 0; row < this.grid.length; row++) {
+            var block = this.grid[row][col];
+            if (!block) {
+              sum = 0;
+              matchedBlocks = [];
+              continue;
+            }
+            var tileItem = block.getComponent(TileItemUI);
+            var number = tileItem.TileNum;
+            if (matchedBlocks.length === 0) {
+              sum = number;
+            } else {
+              sum += number;
+            }
+            matchedBlocks.push(block);
+
+            // If we found a sum of 10, remove all blocks contributing to it
+            if (sum === 10) {
+              this.removeMatchedBlocks(matchedBlocks);
+              sum = 0;
+              matchedBlocks = [];
+            }
+            // If last two numbers in matchedBlocks are equal, remove them
+            else if (matchedBlocks.length > 1 && number === matchedBlocks[matchedBlocks.length - 2].getComponent(TileItemUI).TileNum) {
+              this.removeMatchedBlocks([block, matchedBlocks[matchedBlocks.length - 2]]);
+              sum -= number + matchedBlocks[matchedBlocks.length - 2].getComponent(TileItemUI).TileNum;
+              sum = sum < 0 ? 0 : sum;
+              matchedBlocks.pop();
+              matchedBlocks.pop();
+            }
+          }
+        };
+        _proto.removeMatchedBlocks = /*#__PURE__*/function () {
+          var _removeMatchedBlocks = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(blocks) {
+            var cleanAnim, scoreToAdd, i, block, tileItem;
+            return _regeneratorRuntime().wrap(function _callee$(_context) {
+              while (1) switch (_context.prev = _context.next) {
+                case 0:
+                  cleanAnim = [];
+                  scoreToAdd = blocks.length * 5;
+                  for (i = 0; i < blocks.length; i++) {
+                    block = blocks[i];
+                    tileItem = block.getComponent(TileItemUI);
+                    cleanAnim.push(tileItem.destroyTile());
+                    this.grid[tileItem.Row][tileItem.Col] = null;
+                    // Show tooltip for score popup
+                    this.scoreManager.showScoreTooltip(block, 5);
+                  }
+                  _context.next = 5;
+                  return Promise.all(cleanAnim);
+                case 5:
+                  this.scoreManager.addScore(scoreToAdd);
+                case 6:
+                case "end":
+                  return _context.stop();
+              }
+            }, _callee, this);
+          }));
+          function removeMatchedBlocks(_x) {
+            return _removeMatchedBlocks.apply(this, arguments);
+          }
+          return removeMatchedBlocks;
+        }();
+        _createClass(MatchChecker, [{
+          key: "OnTileMerged",
+          get: function get() {
+            return this.onTileMerged;
+          }
+        }]);
+        return MatchChecker;
+      }()) || _class);
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/ScoreManager.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc'], function (exports) {
+  var _applyDecoratedDescriptor, _inheritsLoose, _initializerDefineProperty, _assertThisInitialized, cclegacy, _decorator, Label, Prefab, sys, instantiate, Vec3, tween, Component;
+  return {
+    setters: [function (module) {
+      _applyDecoratedDescriptor = module.applyDecoratedDescriptor;
+      _inheritsLoose = module.inheritsLoose;
+      _initializerDefineProperty = module.initializerDefineProperty;
+      _assertThisInitialized = module.assertThisInitialized;
+    }, function (module) {
+      cclegacy = module.cclegacy;
+      _decorator = module._decorator;
+      Label = module.Label;
+      Prefab = module.Prefab;
+      sys = module.sys;
+      instantiate = module.instantiate;
+      Vec3 = module.Vec3;
+      tween = module.tween;
+      Component = module.Component;
+    }],
+    execute: function () {
+      var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
+      cclegacy._RF.push({}, "47db7mQq/FDN4IRsIzGX+hp", "ScoreManager", undefined);
+      var ccclass = _decorator.ccclass,
+        property = _decorator.property;
+      var ScoreManager = exports('default', (_dec = ccclass('ScoreManager'), _dec2 = property(Label), _dec3 = property(Label), _dec4 = property(Label), _dec5 = property(Label), _dec6 = property(Prefab), _dec(_class = (_class2 = /*#__PURE__*/function (_Component) {
+        _inheritsLoose(ScoreManager, _Component);
+        function ScoreManager() {
+          var _this;
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+          _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+          _initializerDefineProperty(_this, "scoreLabel", _descriptor, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "highScoreLabel", _descriptor2, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "throwsCntLabel", _descriptor3, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "levelLabel", _descriptor4, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "tooltipPrefab", _descriptor5, _assertThisInitialized(_this));
+          _this.currentScore = 0;
+          _this.highScore = 0;
+          _this.throwCounter = 0;
+          _this.levelCounter = 0;
+          _this.savedHighScore = 0;
+          _this.highScoreKey = "highScore";
+          return _this;
+        }
+        var _proto = ScoreManager.prototype;
+        _proto.start = function start() {
+          this.loadhighScore();
+          this.updateUI();
+        };
+        _proto.loadhighScore = function loadhighScore() {
+          var savedhighScore = this.loadHighScore();
+          this.savedHighScore = savedhighScore;
+          this.highScore = savedhighScore ? savedhighScore : 0;
+          this.throwCounter = 10;
+          this.levelCounter = 1;
+        };
+        _proto.loadHighScore = function loadHighScore() {
+          try {
+            if (sys.localStorage) {
+              return parseInt(sys.localStorage.getItem(this.highScoreKey)) || 0;
+            }
+          } catch (e) {
+            console.warn("Storage access error. Returning 0 as high score:", e);
+            return 0;
+          }
+        };
+        _proto.addScore = function addScore(points) {
+          this.currentScore += points;
+          if (this.currentScore > this.highScore) {
+            this.highScore = this.currentScore;
+            this.saveHighScore();
+          }
+          this.updateUI();
+        };
+        _proto.updateThrows = function updateThrows() {
+          this.throwCounter--;
+          if (this.throwCounter <= 0) {
+            this.throwCounter = 0;
+            this.levelCounter++;
+          }
+          this.updateUI();
+        };
+        _proto.saveHighScore = function saveHighScore() {
+          try {
+            if (sys.localStorage) {
+              sys.localStorage.setItem(this.highScoreKey, this.highScore.toString());
+              console.log("New High Score Saved:", this.highScore);
+            }
+          } catch (e) {
+            console.warn("Storage access error. High score not saved:", e);
+          }
+        };
+        _proto.resetScore = function resetScore() {
+          this.currentScore = 0;
+          this.updateUI(); // Update the score label
+        };
+
+        _proto.updateUI = function updateUI() {
+          this.scoreLabel.string = "" + this.currentScore;
+          this.highScoreLabel.string = "" + this.highScore;
+          this.throwsCntLabel.string = "" + this.throwCounter;
+          this.levelLabel.string = "" + this.levelCounter;
+        };
+        _proto.getScore = function getScore() {
+          return this.currentScore;
+        };
+        _proto.getHighScore = function getHighScore() {
+          return this.highScore;
+        };
+        _proto.showScoreTooltip = function showScoreTooltip(block, points) {
+          if (!this.tooltipPrefab) return;
+          var tooltip = instantiate(this.tooltipPrefab);
+          tooltip.getComponentInChildren(Label).string = "+" + points;
+          tooltip.setParent(block.parent);
+          tooltip.setPosition(new Vec3(block.position.x, block.position.y + 100, block.position.z));
+
+          // Move up slightly & fade out
+          tween(tooltip).to(0.5, {
+            position: new Vec3(block.position.x, block.position.y + 100, 0)
+          }).call(function () {
+            return tooltip.destroy();
+          }).start();
+        };
+        return ScoreManager;
+      }(Component), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "scoreLabel", [_dec2], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "highScoreLabel", [_dec3], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "throwsCntLabel", [_dec4], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "levelLabel", [_dec5], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: function initializer() {
+          return null;
+        }
+      }), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, "tooltipPrefab", [_dec6], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: null
+      })), _class2)) || _class));
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/Signal.ts", ['cc'], function (exports) {
+  var cclegacy;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+    }],
+    execute: function () {
+      cclegacy._RF.push({}, "190a6ch2CNA/43GIE/jtCi0", "Signal", undefined); // Need to capture *this*
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      var Signal = exports('Signal', /*#__PURE__*/function () {
+        function Signal() {
+          this.handlers = [];
+          this.thisArgs = [];
+        }
+        var _proto = Signal.prototype;
+        _proto.on = function on(handler, thisArg) {
+          this.handlers.push(handler);
+          this.thisArgs.push(thisArg);
+        };
+        _proto.off = function off(handler) {
+          var index = this.handlers.indexOf(handler);
+          this.handlers.splice(index, 1);
+          this.thisArgs.splice(index, 1);
+        };
+        _proto.trigger = function trigger(data) {
+          // protect from trigger >> off
+          var handlers = [].concat(this.handlers);
+          var thisArgs = [].concat(this.thisArgs);
+          for (var i = 0; i < handlers.length; i++) {
+            handlers[i].call(thisArgs[i], data);
+          }
+        };
+        return Signal;
+      }());
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/TileItemUI.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './Signal.ts', './ConsoleLogger.ts', './TweenAnimations.ts'], function (exports) {
+  var _applyDecoratedDescriptor, _inheritsLoose, _createClass, _initializerDefineProperty, _assertThisInitialized, _asyncToGenerator, _regeneratorRuntime, cclegacy, _decorator, Label, Button, tween, Component, Signal, ConsoleLogger, TweenAnimations;
+  return {
+    setters: [function (module) {
+      _applyDecoratedDescriptor = module.applyDecoratedDescriptor;
+      _inheritsLoose = module.inheritsLoose;
+      _createClass = module.createClass;
+      _initializerDefineProperty = module.initializerDefineProperty;
+      _assertThisInitialized = module.assertThisInitialized;
+      _asyncToGenerator = module.asyncToGenerator;
+      _regeneratorRuntime = module.regeneratorRuntime;
+    }, function (module) {
+      cclegacy = module.cclegacy;
+      _decorator = module._decorator;
+      Label = module.Label;
+      Button = module.Button;
+      tween = module.tween;
+      Component = module.Component;
+    }, function (module) {
+      Signal = module.Signal;
+    }, function (module) {
+      ConsoleLogger = module.default;
+    }, function (module) {
+      TweenAnimations = module.default;
+    }],
+    execute: function () {
+      var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2;
+      cclegacy._RF.push({}, "f7c88RVshdAqZbpSaN40N4d", "TileItemUI", undefined);
+      var ccclass = _decorator.ccclass,
+        property = _decorator.property;
+      var TileItemUI = exports('TileItemUI', (_dec = ccclass('TileItemUI'), _dec2 = property(Label), _dec3 = property(Button), _dec(_class = (_class2 = /*#__PURE__*/function (_Component) {
+        _inheritsLoose(TileItemUI, _Component);
+        function TileItemUI() {
+          var _this;
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+          _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+          _initializerDefineProperty(_this, "numberText", _descriptor, _assertThisInitialized(_this));
+          _initializerDefineProperty(_this, "btn", _descriptor2, _assertThisInitialized(_this));
+          _this._row = void 0;
+          _this._col = void 0;
+          _this._tileNum = void 0;
+          _this.onTileItemClickedEvent = new Signal();
+          _this.onTileSettledInPlaceEvent = new Signal();
+          return _this;
+        }
+        var _proto = TileItemUI.prototype;
+        _proto.init = function init(tileData) {
+          this._row = tileData.row;
+          this._col = tileData.col;
+          this._tileNum = tileData.tilenumber;
+          this.numberText.string = this._tileNum.toString();
+        };
+        _proto.SetRowCol = function SetRowCol(r, c) {
+          this._row = r;
+          this._col = c;
+        };
+        _proto.onTileClick = function onTileClick() {
+          this.onTileItemClickedEvent.trigger(this);
+        };
+        _proto.destroyTile = /*#__PURE__*/function () {
+          var _destroyTile = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+            return _regeneratorRuntime().wrap(function _callee$(_context) {
+              while (1) switch (_context.prev = _context.next) {
+                case 0:
+                  _context.next = 2;
+                  return this.playDestoryAnim();
+                case 2:
+                case "end":
+                  return _context.stop();
+              }
+            }, _callee, this);
+          }));
+          function destroyTile() {
+            return _destroyTile.apply(this, arguments);
+          }
+          return destroyTile;
+        }();
+        _proto.playDestoryAnim = /*#__PURE__*/function () {
+          var _playDestoryAnim = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+            var _this2 = this;
+            var prm;
+            return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+              while (1) switch (_context2.prev = _context2.next) {
+                case 0:
+                  //play destory anim
+                  prm = new Promise(function (resolve, reject) {
+                    TweenAnimations.shake(30, 0.5, _this2.node).call(function () {
+                      return resolve();
+                    }).start();
+                  });
+                  _context2.next = 3;
+                  return prm;
+                case 3:
+                  this.node.active = false;
+                  this.destroy();
+                case 5:
+                case "end":
+                  return _context2.stop();
+              }
+            }, _callee2, this);
+          }));
+          function playDestoryAnim() {
+            return _playDestoryAnim.apply(this, arguments);
+          }
+          return playDestoryAnim;
+        }();
+        _proto.moveToPosition = function moveToPosition(position) {
+          var _this3 = this;
+          return tween(this.node).to(1, {
+            position: position
+          }).call(function () {
+            return _this3.onMoveComplete();
+          });
+        };
+        _proto.onMoveComplete = function onMoveComplete() {
+          ConsoleLogger.instance.info("Block moved to position!");
+          this.onTileSettledInPlaceEvent.trigger(this);
+        };
+        _createClass(TileItemUI, [{
+          key: "Row",
+          get: function get() {
+            return this._row;
+          }
+        }, {
+          key: "Col",
+          get: function get() {
+            return this._col;
+          }
+        }, {
+          key: "TileNum",
+          get: function get() {
+            return this._tileNum;
+          }
+        }, {
+          key: "OnTileItemClickedEvent",
+          get: function get() {
+            return this.onTileItemClickedEvent;
+          }
+        }, {
+          key: "OnTileSettledInPlaceEvent",
+          get: function get() {
+            return this.onTileSettledInPlaceEvent;
+          }
+        }]);
+        return TileItemUI;
+      }(Component), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "numberText", [_dec2], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: null
+      }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "btn", [_dec3], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: null
+      })), _class2)) || _class));
+      cclegacy._RF.pop();
+    }
+  };
+});
+
+System.register("chunks:///_virtual/TweenAnimations.ts", ['cc'], function (exports) {
+  var cclegacy, _decorator, tween;
+  return {
+    setters: [function (module) {
+      cclegacy = module.cclegacy;
+      _decorator = module._decorator;
+      tween = module.tween;
+    }],
+    execute: function () {
+      var _class;
+      cclegacy._RF.push({}, "a6fa7Gt6x1NeLk0LEt8caUL", "TweenAnimations", undefined);
+      var ccclass = _decorator.ccclass;
+      var TweenAnimations = exports('default', ccclass(_class = /*#__PURE__*/function () {
+        function TweenAnimations() {}
+        /**
+         * Shake the node with a given intensity and duration.
+         * @param intensity - The strength of the shake (in pixels).
+         * @param duration - The duration of the shake (in seconds).
+         */
+        TweenAnimations.shake = function shake(intensity, duration, node) {
+          if (intensity === void 0) {
+            intensity = 2;
+          }
+          if (duration === void 0) {
+            duration = 0.5;
+          }
+          var originalAngle = node.angle;
+
+          // Create a shake effect using tween
+          return tween(node).to(duration / 6, {
+            angle: originalAngle + intensity
+          }) // Move right
+          .to(duration / 6, {
+            angle: originalAngle - intensity
+          }) // Move left
+          .to(duration / 6, {
+            angle: originalAngle + intensity
+          }) // Move right
+          .to(duration / 6, {
+            angle: originalAngle - intensity
+          }) // Move left
+          .to(duration / 6, {
+            angle: originalAngle + intensity
+          }) // Move right
+          .to(duration / 6, {
+            angle: originalAngle
+          }); // Return to the original position
+        };
+
+        return TweenAnimations;
+      }()) || _class);
+      cclegacy._RF.pop();
+    }
+  };
+});
 
 (function(r) {
   r('virtual:///prerequisite-imports/main', 'chunks:///_virtual/main'); 
