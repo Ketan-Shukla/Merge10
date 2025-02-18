@@ -288,8 +288,8 @@ System.register("chunks:///_virtual/ConsoleLogger.ts", ['./rollupPluginModLoBabe
   };
 });
 
-System.register("chunks:///_virtual/GameBoardManager.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './BlockSpawner.ts', './MatchChecker.ts', './ConsoleLogger.ts', './TileItemUI.ts', './ScoreManager.ts'], function (exports) {
-  var _applyDecoratedDescriptor, _inheritsLoose, _initializerDefineProperty, _assertThisInitialized, _asyncToGenerator, _regeneratorRuntime, cclegacy, _decorator, Prefab, Node, Button, Vec2, Component, Vec3, BlockSpawner, MatchChecker, ConsoleLogger, TileItemUI, ScoreManager;
+System.register("chunks:///_virtual/GameBoardManager.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './BlockSpawner.ts', './MatchChecker.ts', './TileItemUI.ts', './ScoreManager.ts', './GameModels.ts'], function (exports) {
+  var _applyDecoratedDescriptor, _inheritsLoose, _initializerDefineProperty, _assertThisInitialized, _asyncToGenerator, _regeneratorRuntime, cclegacy, _decorator, Prefab, Node, Button, Vec2, Vec3, Component, tween, BlockSpawner, MatchChecker, TileItemUI, ScoreManager, PositionData;
   return {
     setters: [function (module) {
       _applyDecoratedDescriptor = module.applyDecoratedDescriptor;
@@ -305,18 +305,19 @@ System.register("chunks:///_virtual/GameBoardManager.ts", ['./rollupPluginModLoB
       Node = module.Node;
       Button = module.Button;
       Vec2 = module.Vec2;
-      Component = module.Component;
       Vec3 = module.Vec3;
+      Component = module.Component;
+      tween = module.tween;
     }, function (module) {
       BlockSpawner = module.default;
     }, function (module) {
       MatchChecker = module.default;
     }, function (module) {
-      ConsoleLogger = module.default;
-    }, function (module) {
       TileItemUI = module.TileItemUI;
     }, function (module) {
       ScoreManager = module.default;
+    }, function (module) {
+      PositionData = module.PositionData;
     }],
     execute: function () {
       var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10;
@@ -343,9 +344,10 @@ System.register("chunks:///_virtual/GameBoardManager.ts", ['./rollupPluginModLoB
           _initializerDefineProperty(_this, "scoreManager", _descriptor10, _assertThisInitialized(_this));
           _this.grid = [];
           _this.blockSpawner = void 0;
-          _this.inputHandler = void 0;
           _this.matchChecker = void 0;
           _this.nextTile = void 0;
+          _this.bottomLeftTilePos = void 0;
+          _this.positionData = void 0;
           return _this;
         }
         var _proto = GameBoardManager.prototype;
@@ -356,9 +358,10 @@ System.register("chunks:///_virtual/GameBoardManager.ts", ['./rollupPluginModLoB
          */
         _proto.start = function start() {
           this.blockSpawner = new BlockSpawner(this.blockPrefab, this.gameBoard);
-          // this.inputHandler = new InputHandler(this.gridSize, this.gameBoard, this.onColumnSelected.bind(this));
-          this.matchChecker = new MatchChecker(this.grid, this.scoreManager);
           this.playBtn.node.parent.active = true;
+          this.bottomLeftTilePos = new Vec3(this.targetPositionLeftMostCol.position.x, this.targetPositionBottomRow.position.y, 0); // Adjust based on your grid cell size
+          this.positionData = new PositionData(this.bottomLeftTilePos, this.tileItemSize.x, this.tileItemSize.y, this.tileSpacing);
+          this.matchChecker = new MatchChecker(this.grid, this.scoreManager, this.positionData);
         };
         _proto.onClickPlayBtn = function onClickPlayBtn() {
           this.playBtn.node.parent.active = false;
@@ -387,80 +390,216 @@ System.register("chunks:///_virtual/GameBoardManager.ts", ['./rollupPluginModLoB
             this.spawnBlockAtRandomColumn();
           }
         };
-        _proto.spawnBlockAtRandomColumn = function spawnBlockAtRandomColumn() {
-          var column = this.getRandomColumn();
-          var row = this.findBottommostEmptyRow(column);
-          if (row === -1) {
-            ConsoleLogger.instance.info("All columns are full!");
-            return;
-          }
-          this.spawnBlockSpecifiedPosition(row, column, this.blockSpawner.spawnBlock(row, column), true);
-        };
-        _proto.spawnBlockSpecifiedPosition = /*#__PURE__*/function () {
-          var _spawnBlockSpecifiedPosition = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(row, column, block, skipAnim) {
-            var targetPosition, prm;
+        _proto.spawnBlockAtRandomColumn = /*#__PURE__*/function () {
+          var _spawnBlockAtRandomColumn = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+            var column, row, block, targetPosition;
             return _regeneratorRuntime().wrap(function _callee$(_context) {
               while (1) switch (_context.prev = _context.next) {
                 case 0:
-                  if (skipAnim === void 0) {
-                    skipAnim = false;
-                  }
-                  this.grid[row][column] = block;
-                  block.setPosition(this.upcomingTileNode.position);
-                  // Move the block to its target position
-                  targetPosition = new Vec3(this.targetPositionLeftMostCol.position.x + (column * this.tileItemSize.x + this.tileSpacing), this.targetPositionBottomRow.position.y + (row * this.tileItemSize.y + this.tileSpacing), 0); // Adjust based on your grid cell size
-                  // block.getComponent(TileItemUI).moveToPosition(targetPosition);
-                  block.setPosition(new Vec3(targetPosition.x, this.upcomingTileNode.position.y, this.upcomingTileNode.position.z));
-                  if (!(skipAnim == true)) {
-                    _context.next = 9;
+                  column = this.getRandomColumn();
+                  row = this.findBottommostEmptyRow(column);
+                  if (!(row === -1)) {
+                    _context.next = 4;
                     break;
                   }
+                  return _context.abrupt("return");
+                case 4:
+                  // this.spawnBlockSpecifiedPosition(row, column, this.blockSpawner.spawnBlock(row,column), true);
+                  block = this.blockSpawner.spawnBlock(row, column);
+                  this.grid[row][column] = block;
+                  block.setPosition(this.upcomingTileNode.position);
+                  targetPosition = this.getTilePosition(row, column);
+                  block.setPosition(new Vec3(targetPosition.x, this.upcomingTileNode.position.y, this.upcomingTileNode.position.z));
                   block.setPosition(targetPosition);
                   _context.next = 12;
-                  break;
-                case 9:
-                  prm = new Promise(function (resolve, reject) {
-                    block.getComponent(TileItemUI).moveToPosition(targetPosition).call(function () {
-                      return resolve();
-                    }).start();
-                  });
-                  _context.next = 12;
-                  return prm;
+                  return this.applyGravityAndProcessMatches();
                 case 12:
-                  this.grid = this.matchChecker.checkMatches(this.grid);
-                  this.spawnUpcomingTile();
-                case 14:
                 case "end":
                   return _context.stop();
               }
             }, _callee, this);
           }));
-          function spawnBlockSpecifiedPosition(_x, _x2, _x3, _x4) {
+          function spawnBlockAtRandomColumn() {
+            return _spawnBlockAtRandomColumn.apply(this, arguments);
+          }
+          return spawnBlockAtRandomColumn;
+        }();
+        _proto.spawnBlockSpecifiedPosition = /*#__PURE__*/function () {
+          var _spawnBlockSpecifiedPosition = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(row, column, block) {
+            var targetPosition, prm;
+            return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+              while (1) switch (_context2.prev = _context2.next) {
+                case 0:
+                  this.grid[row][column] = block;
+                  block.setPosition(this.upcomingTileNode.position);
+                  targetPosition = this.getTilePosition(row, column);
+                  block.setPosition(new Vec3(targetPosition.x, this.upcomingTileNode.position.y, this.upcomingTileNode.position.z));
+                  prm = new Promise(function (resolve, reject) {
+                    block.getComponent(TileItemUI).moveToPosition(targetPosition).call(function () {
+                      return resolve();
+                    }).start();
+                  });
+                  _context2.next = 7;
+                  return prm;
+                case 7:
+                  _context2.next = 9;
+                  return this.applyGravityAndProcessMatches();
+                case 9:
+                  this.spawnUpcomingTile();
+                case 10:
+                case "end":
+                  return _context2.stop();
+              }
+            }, _callee2, this);
+          }));
+          function spawnBlockSpecifiedPosition(_x, _x2, _x3) {
             return _spawnBlockSpecifiedPosition.apply(this, arguments);
           }
           return spawnBlockSpecifiedPosition;
         }();
+        _proto.applyGravityAndProcessMatches = /*#__PURE__*/function () {
+          var _applyGravityAndProcessMatches = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+            var hasMatches;
+            return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+              while (1) switch (_context3.prev = _context3.next) {
+                case 0:
+                  hasMatches = true;
+                case 1:
+                  if (!hasMatches) {
+                    _context3.next = 10;
+                    break;
+                  }
+                  _context3.next = 4;
+                  return this.matchChecker.checkMatches();
+                case 4:
+                  hasMatches = _context3.sent;
+                  if (!hasMatches) {
+                    _context3.next = 8;
+                    break;
+                  }
+                  _context3.next = 8;
+                  return this.applyGravity();
+                case 8:
+                  _context3.next = 1;
+                  break;
+                case 10:
+                  this.spawnUpcomingTile();
+                // Step 3: Spawn New Tile
+                case 11:
+                case "end":
+                  return _context3.stop();
+              }
+            }, _callee3, this);
+          }));
+          function applyGravityAndProcessMatches() {
+            return _applyGravityAndProcessMatches.apply(this, arguments);
+          }
+          return applyGravityAndProcessMatches;
+        }() // private async applyGravity(): Promise<void> {
+        //     let gravityPromises: Promise<void>[] = [];
+        //     for (let col = 0; col < this.grid[0].length; col++) {
+        //         let emptyRow = this.grid.length - 1;
+        //         for (let row = this.grid.length - 1; row >= 0; row--) {
+        //             if (this.grid[row][col]) {
+        //                 if (emptyRow !== row) {
+        //                     let block = this.grid[row][col];
+        //                     this.grid[emptyRow][col] = block;
+        //                     this.grid[row][col] = null;
+        //                     let tileItem = block.getComponent(TileItemUI);
+        //                     tileItem.init({ row: emptyRow, col: col, tilenumber: tileItem.TileNum });
+        //                     gravityPromises.push(this.animateTileDrop(block, row, emptyRow)); // Animate drop
+        //                 }
+        //                 emptyRow--;
+        //             }
+        //         }
+        //     }
+        //     await Promise.all(gravityPromises); // Wait for all animations to complete
+        // }
+        ;
+
+        _proto.applyGravity = /*#__PURE__*/
+        function () {
+          var _applyGravity = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+            var gravityPromises, col, emptyRow, row, block, tileItem;
+            return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+              while (1) switch (_context4.prev = _context4.next) {
+                case 0:
+                  gravityPromises = [];
+                  for (col = 0; col < this.grid[0].length; col++) {
+                    emptyRow = -1;
+                    for (row = 0; row < this.grid.length; row++) {
+                      if (this.grid[row][col]) {
+                        if (emptyRow !== -1) {
+                          block = this.grid[row][col];
+                          this.grid[emptyRow][col] = block;
+                          this.grid[row][col] = null;
+                          tileItem = block.getComponent(TileItemUI);
+                          tileItem.init({
+                            row: emptyRow,
+                            col: col,
+                            tilenumber: tileItem.TileNum
+                          });
+                          gravityPromises.push(this.animateTileDrop(block, row, emptyRow));
+                          emptyRow++;
+                        }
+                      } else if (emptyRow === -1) {
+                        emptyRow = row;
+                      }
+                    }
+                  }
+                  _context4.next = 4;
+                  return Promise.all(gravityPromises);
+                case 4:
+                case "end":
+                  return _context4.stop();
+              }
+            }, _callee4, this);
+          }));
+          function applyGravity() {
+            return _applyGravity.apply(this, arguments);
+          }
+          return applyGravity;
+        }();
+        _proto.animateTileDrop = /*#__PURE__*/function () {
+          var _animateTileDrop = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(block, startRow, endRow) {
+            var _this2 = this;
+            return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+              while (1) switch (_context5.prev = _context5.next) {
+                case 0:
+                  return _context5.abrupt("return", new Promise(function (resolve) {
+                    tween(block).to(0.3, {
+                      position: new Vec3(block.position.x, _this2.positionData.leftBottomPos.y + endRow * (_this2.positionData.tileHeight + _this2.positionData.tileSpacing), 0)
+                    }).call(function (_) {
+                      return resolve();
+                    }).start();
+                  }));
+                case 1:
+                case "end":
+                  return _context5.stop();
+              }
+            }, _callee5);
+          }));
+          function animateTileDrop(_x4, _x5, _x6) {
+            return _animateTileDrop.apply(this, arguments);
+          }
+          return animateTileDrop;
+        }();
         _proto.getRandomColumn = function getRandomColumn() {
           return Math.floor(Math.random() * this.gridSize);
         };
-        _proto.findBottommostEmptyRow = function findBottommostEmptyRow(startColumn) {
-          var column = startColumn;
-          var attempts = 0;
-          while (attempts < this.gridSize) {
-            for (var row = 0; row < this.gridSize; row++) {
-              if (!this.grid[row][column]) {
-                return row;
-              }
+        _proto.findBottommostEmptyRow = function findBottommostEmptyRow(column) {
+          for (var row = 0; row < this.gridSize; row++) {
+            if (!this.grid[row][column]) {
+              return row;
             }
-            column = (column + 1) % this.gridSize;
-            if (column == this.gridSize) {
-              column = 0;
-            }
-            attempts++;
           }
-          return -1; // All columns are full
+          return -1;
         };
+        _proto.getTilePosition = function getTilePosition(row, column) {
+          // new Vec3(this.bottomLeftTilePos.x + (column * this.tileItemSize.x+ this.tileSpacing), this.bottomLeftTilePos.y + (row * this.tileItemSize.y+ this.tileSpacing), 0); // Adjust based on your grid cell size
 
+          return new Vec3(this.bottomLeftTilePos.x + column * (this.tileItemSize.x + this.tileSpacing), this.bottomLeftTilePos.y + row * (this.tileItemSize.y + this.tileSpacing), 0);
+        };
         _proto.findIfValidEmptyRowExists = function findIfValidEmptyRowExists(startColumn) {
           var column = startColumn;
           for (var row = 0; row < this.gridSize; row++) {
@@ -570,14 +709,33 @@ System.register("chunks:///_virtual/GameBoardManager.ts", ['./rollupPluginModLoB
   };
 });
 
-System.register("chunks:///_virtual/GameModels.ts", ['cc'], function () {
-  var cclegacy;
+System.register("chunks:///_virtual/GameModels.ts", ['cc'], function (exports) {
+  var cclegacy, Vec3;
   return {
     setters: [function (module) {
       cclegacy = module.cclegacy;
+      Vec3 = module.Vec3;
     }],
     execute: function () {
       cclegacy._RF.push({}, "ae8f2eelOFL9ZuSj14wdVRM", "GameModels", undefined);
+      var PositionData = exports('PositionData', function PositionData(leftBottomPos, tileWidth, tileHeight, tileSpacing) {
+        this.leftBottomPos = Vec3.ZERO;
+        this.tileWidth = 113;
+        this.tileHeight = 117;
+        this.tileSpacing = 10;
+        this.leftBottomPos = leftBottomPos;
+        this.tileHeight = tileHeight;
+        this.tileWidth = tileWidth;
+        this.tileSpacing = tileSpacing;
+      });
+      var MatchResultData = exports('MatchResultData', function MatchResultData(sum, isMatch, matchedBlocks) {
+        this.sum = 0;
+        this.isMatch = false;
+        this.matchedBlocks = [];
+        this.sum = sum;
+        this.isMatch = isMatch;
+        this.matchedBlocks = matchedBlocks;
+      });
       cclegacy._RF.pop();
     }
   };
@@ -719,13 +877,14 @@ System.register("chunks:///_virtual/main", ['./GameBoardManager.ts', './BlockSpa
   };
 });
 
-System.register("chunks:///_virtual/MatchChecker.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './Signal.ts', './TileItemUI.ts'], function (exports) {
-  var _createClass, _asyncToGenerator, _regeneratorRuntime, cclegacy, _decorator, Signal, TileItemUI;
+System.register("chunks:///_virtual/MatchChecker.ts", ['./rollupPluginModLoBabelHelpers.js', 'cc', './Signal.ts', './TileItemUI.ts', './GameModels.ts'], function (exports) {
+  var _createClass, _asyncToGenerator, _regeneratorRuntime, _createForOfIteratorHelperLoose, cclegacy, _decorator, Signal, TileItemUI, MatchResultData;
   return {
     setters: [function (module) {
       _createClass = module.createClass;
       _asyncToGenerator = module.asyncToGenerator;
       _regeneratorRuntime = module.regeneratorRuntime;
+      _createForOfIteratorHelperLoose = module.createForOfIteratorHelperLoose;
     }, function (module) {
       cclegacy = module.cclegacy;
       _decorator = module._decorator;
@@ -733,6 +892,8 @@ System.register("chunks:///_virtual/MatchChecker.ts", ['./rollupPluginModLoBabel
       Signal = module.Signal;
     }, function (module) {
       TileItemUI = module.TileItemUI;
+    }, function (module) {
+      MatchResultData = module.MatchResultData;
     }],
     execute: function () {
       var _class;
@@ -740,122 +901,221 @@ System.register("chunks:///_virtual/MatchChecker.ts", ['./rollupPluginModLoBabel
       var ccclass = _decorator.ccclass,
         property = _decorator.property;
       var MatchChecker = exports('default', ccclass(_class = /*#__PURE__*/function () {
-        function MatchChecker(grid, scoreManager) {
+        function MatchChecker(grid, scoreManager, positionData) {
           this.grid = void 0;
           this.onTileMerged = new Signal();
           this.scoreManager = void 0;
+          this.positionData = void 0;
           this.grid = grid;
           this.scoreManager = scoreManager;
+          this.positionData = positionData;
         }
         var _proto = MatchChecker.prototype;
-        _proto.checkMatches = function checkMatches(grid) {
-          this.grid = grid;
-          for (var row = 0; row < this.grid.length; row++) {
-            this.checkRow(row);
-          }
-          for (var col = 0; col < this.grid[0].length; col++) {
-            this.checkColumn(col);
-          }
-          return this.grid;
-        };
-        _proto.checkRow = function checkRow(row) {
-          var sum = 0;
-          var matchedBlocks = [];
-          for (var col = 0; col < this.grid[row].length; col++) {
-            var block = this.grid[row][col];
-            if (!block) {
-              sum = 0;
-              matchedBlocks = [];
-              continue;
-            }
-            var tileItem = block.getComponent(TileItemUI);
-            var number = tileItem.TileNum;
-            if (matchedBlocks.length === 0) {
-              sum = number;
-              matchedBlocks.push(block);
-            } else {
-              sum += number;
-              matchedBlocks.push(block);
-            }
-
-            // If we found a sum of 10 or matching numbers, remove them
-            if (sum === 10) {
-              this.removeMatchedBlocks(matchedBlocks);
-              sum = 0;
-              matchedBlocks = [];
-            } else if (matchedBlocks.length > 1 && number === matchedBlocks[matchedBlocks.length - 2].getComponent(TileItemUI).TileNum) {
-              this.removeMatchedBlocks([block, matchedBlocks[matchedBlocks.length - 2]]);
-              sum = 0;
-              matchedBlocks = [];
-            }
-          }
-        };
-        _proto.checkColumn = function checkColumn(col) {
-          var sum = 0;
-          var matchedBlocks = [];
-          for (var row = 0; row < this.grid.length; row++) {
-            var block = this.grid[row][col];
-            if (!block) {
-              sum = 0;
-              matchedBlocks = [];
-              continue;
-            }
-            var tileItem = block.getComponent(TileItemUI);
-            var number = tileItem.TileNum;
-            if (matchedBlocks.length === 0) {
-              sum = number;
-            } else {
-              sum += number;
-            }
-            matchedBlocks.push(block);
-
-            // If we found a sum of 10, remove all blocks contributing to it
-            if (sum === 10) {
-              this.removeMatchedBlocks(matchedBlocks);
-              sum = 0;
-              matchedBlocks = [];
-            }
-            // If last two numbers in matchedBlocks are equal, remove them
-            else if (matchedBlocks.length > 1 && number === matchedBlocks[matchedBlocks.length - 2].getComponent(TileItemUI).TileNum) {
-              this.removeMatchedBlocks([block, matchedBlocks[matchedBlocks.length - 2]]);
-              sum -= number + matchedBlocks[matchedBlocks.length - 2].getComponent(TileItemUI).TileNum;
-              sum = sum < 0 ? 0 : sum;
-              matchedBlocks.pop();
-              matchedBlocks.pop();
-            }
-          }
-        };
-        _proto.removeMatchedBlocks = /*#__PURE__*/function () {
-          var _removeMatchedBlocks = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(blocks) {
-            var cleanAnim, scoreToAdd, i, block, tileItem;
+        _proto.checkMatches = /*#__PURE__*/function () {
+          var _checkMatches = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+            var matches;
             return _regeneratorRuntime().wrap(function _callee$(_context) {
               while (1) switch (_context.prev = _context.next) {
                 case 0:
-                  cleanAnim = [];
-                  scoreToAdd = blocks.length * 5;
-                  for (i = 0; i < blocks.length; i++) {
-                    block = blocks[i];
-                    tileItem = block.getComponent(TileItemUI);
-                    cleanAnim.push(tileItem.destroyTile());
-                    this.grid[tileItem.Row][tileItem.Col] = null;
-                    // Show tooltip for score popup
-                    this.scoreManager.showScoreTooltip(block, 5);
+                  matches = this.collectAllMatches();
+                  if (!(matches.length > 0)) {
+                    _context.next = 5;
+                    break;
                   }
-                  _context.next = 5;
-                  return Promise.all(cleanAnim);
+                  _context.next = 4;
+                  return this.processMatches(matches);
+                case 4:
+                  return _context.abrupt("return", true);
                 case 5:
-                  this.scoreManager.addScore(scoreToAdd);
+                  return _context.abrupt("return", false);
                 case 6:
                 case "end":
                   return _context.stop();
               }
             }, _callee, this);
           }));
-          function removeMatchedBlocks(_x) {
-            return _removeMatchedBlocks.apply(this, arguments);
+          function checkMatches() {
+            return _checkMatches.apply(this, arguments);
           }
-          return removeMatchedBlocks;
+          return checkMatches;
         }();
+        _proto.collectAllMatches = function collectAllMatches() {
+          var allMatches = [];
+          var rowLen = this.grid.length;
+          var colLen = this.grid[0].length;
+          for (var row = 0; row < rowLen; row++) {
+            var rowMatches = this.findMatchesInRow(row);
+            if (rowMatches.length > 0) {
+              allMatches.push.apply(allMatches, rowMatches);
+            }
+            // if (this.checkRow(row)) hasMatches = true;
+          }
+
+          for (var col = 0; col < colLen; col++) {
+            var colMatches = this.findMatchesInColumn(col);
+            if (colMatches.length > 0) {
+              allMatches.push.apply(allMatches, colMatches);
+            }
+          }
+          return allMatches;
+        };
+        _proto.processMatches = /*#__PURE__*/function () {
+          var _processMatches = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(allMatches) {
+            var destroyAnimations, _iterator, _step, matchGroup, _iterator2, _step2, block, tileItem;
+            return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+              while (1) switch (_context2.prev = _context2.next) {
+                case 0:
+                  destroyAnimations = []; // Destroy all matched blocks
+                  for (_iterator = _createForOfIteratorHelperLoose(allMatches); !(_step = _iterator()).done;) {
+                    matchGroup = _step.value;
+                    for (_iterator2 = _createForOfIteratorHelperLoose(matchGroup); !(_step2 = _iterator2()).done;) {
+                      block = _step2.value;
+                      tileItem = block.getComponent(TileItemUI);
+                      destroyAnimations.push(tileItem.destroyTile());
+                      this.grid[tileItem.Row][tileItem.Col] = null;
+                      this.scoreManager.showScoreTooltip(block, 5);
+                    }
+                  }
+                  _context2.next = 4;
+                  return Promise.all(destroyAnimations);
+                case 4:
+                case "end":
+                  return _context2.stop();
+              }
+            }, _callee2, this);
+          }));
+          function processMatches(_x) {
+            return _processMatches.apply(this, arguments);
+          }
+          return processMatches;
+        }();
+        _proto.findMatchesInRow = function findMatchesInRow(row) {
+          var matches = [];
+          var matchData = new MatchResultData(0, false, []);
+          for (var col = 0; col < this.grid[row].length; col++) {
+            matchData = this.checkForMatch(row, col, matchData);
+            if (matchData.isMatch) {
+              matches.push([].concat(matchData.matchedBlocks));
+              matchData = new MatchResultData(0, false, []);
+            }
+          }
+          return matches;
+        };
+        _proto.findMatchesInColumn = function findMatchesInColumn(col) {
+          var matches = [];
+          var matchData = new MatchResultData(0, false, []);
+          for (var row = this.grid.length - 1; row >= 0; row--) {
+            matchData = this.checkForMatch(row, col, matchData);
+            if (matchData.isMatch) {
+              this.DisplayScoreToolTip(matchData.matchedBlocks);
+              matches.push([].concat(matchData.matchedBlocks));
+              matchData = new MatchResultData(0, false, []);
+            }
+          }
+          return matches;
+        }
+
+        // checkMatches(): boolean {
+        //     let hasMatches = false;
+        //     let rowLen = this.grid.length;
+        //     let columnLen = this.grid[0].length;
+
+        //     for (let row = 0; row < rowLen; row++) {
+        //         if (this.checkRow(row)) hasMatches = true;
+        //     }
+
+        //     for (let row = rowLen-1; row >= 0 ; row--) {
+        //         if (this.checkRow(row)) hasMatches = true;
+        //     }
+
+        //     for (let col = 0; col < columnLen; col++) {
+        //         if (this.checkColumn(col)) hasMatches = true;
+        //     }
+
+        //     for (let col = columnLen-1; col >= 0; col--) {
+        //         if (this.checkColumn(col)) hasMatches = true;
+        //     }
+
+        //     return hasMatches;
+        // }
+
+        // private checkRow(row: number): boolean {
+        //     let matchResultData = new MatchResultData(0, false, []);
+        //     for (let col = 0; col < this.grid[row].length; col++) 
+        //     {
+        //         matchResultData = this.checkForMatch(row, col, matchResultData);
+        //         if(matchResultData.isMatch)
+        //         {
+        //             return true;
+        //         }
+        //     }
+
+        //     matchResultData = new MatchResultData(0, false, []);
+
+        //     for (let col = this.grid[row].length-1; col >= 0; col--) 
+        //     {
+        //         matchResultData = this.checkForMatch(row, col, matchResultData);
+        //         if(matchResultData.isMatch)
+        //         {
+        //             return true;
+        //         }
+        //     }
+        //     return false;
+        // }
+
+        // private checkColumn(col: number): boolean {
+        //     let matchResultData = new MatchResultData(0, false, []);
+        //     for (let row = this.grid.length-1; row >= 0; row--) 
+        //     {
+        //         matchResultData = this.checkForMatch(row, col, matchResultData);
+        //         if(matchResultData.isMatch)
+        //         {
+        //             return true;
+        //         }
+        //     }
+
+        //     matchResultData = new MatchResultData(0, false, []);
+
+        //     for (let row = 0; row < this.grid.length-1; row++) 
+        //     {
+        //         matchResultData = this.checkForMatch(row, col, matchResultData);
+        //         if(matchResultData.isMatch)
+        //         {
+        //             return true;
+        //         }
+        //     }
+        //     return false;
+        // }
+        ;
+
+        _proto.checkForMatch = function checkForMatch(row, col, matchResultData) {
+          var block = this.grid[row][col];
+          if (!block) {
+            return new MatchResultData(0, false, []);
+          }
+          var tileItem = block.getComponent(TileItemUI);
+          var number = tileItem.TileNum;
+          matchResultData.sum += number;
+          matchResultData.matchedBlocks.push(block);
+          if (matchResultData.sum === 10) {
+            matchResultData.isMatch = true;
+          } else if (matchResultData.matchedBlocks.length > 1 && number === matchResultData.matchedBlocks[matchResultData.matchedBlocks.length - 2].getComponent(TileItemUI).TileNum) {
+            matchResultData.matchedBlocks = matchResultData.matchedBlocks.slice(-2);
+            matchResultData.isMatch = true;
+          }
+          return matchResultData;
+        };
+        _proto.DisplayScoreToolTip = function DisplayScoreToolTip(blocks) {
+          var scoreToAdd = blocks.length * 5;
+          for (var i = 0; i < blocks.length; i++) {
+            var block = blocks[i];
+            var tileItem = block.getComponent(TileItemUI);
+            this.grid[tileItem.Row][tileItem.Col] = null;
+            // Show tooltip for score popup
+            this.scoreManager.showScoreTooltip(block, 5);
+          }
+          this.scoreManager.addScore(scoreToAdd);
+        };
         _createClass(MatchChecker, [{
           key: "OnTileMerged",
           get: function get() {
@@ -1139,8 +1399,10 @@ System.register("chunks:///_virtual/TileItemUI.ts", ['./rollupPluginModLoBabelHe
               while (1) switch (_context.prev = _context.next) {
                 case 0:
                   _context.next = 2;
-                  return this.playDestoryAnim();
+                  return this.playDestroyAnim();
                 case 2:
+                  return _context.abrupt("return", _context.sent);
+                case 3:
                 case "end":
                   return _context.stop();
               }
@@ -1151,34 +1413,29 @@ System.register("chunks:///_virtual/TileItemUI.ts", ['./rollupPluginModLoBabelHe
           }
           return destroyTile;
         }();
-        _proto.playDestoryAnim = /*#__PURE__*/function () {
-          var _playDestoryAnim = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        _proto.playDestroyAnim = /*#__PURE__*/function () {
+          var _playDestroyAnim = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
             var _this2 = this;
-            var prm;
             return _regeneratorRuntime().wrap(function _callee2$(_context2) {
               while (1) switch (_context2.prev = _context2.next) {
                 case 0:
-                  //play destory anim
-                  prm = new Promise(function (resolve, reject) {
+                  return _context2.abrupt("return", new Promise(function (resolve) {
                     TweenAnimations.shake(30, 0.5, _this2.node).call(function () {
-                      return resolve();
+                      _this2.node.active = false;
+                      _this2.destroy();
+                      resolve();
                     }).start();
-                  });
-                  _context2.next = 3;
-                  return prm;
-                case 3:
-                  this.node.active = false;
-                  this.destroy();
-                case 5:
+                  }));
+                case 1:
                 case "end":
                   return _context2.stop();
               }
-            }, _callee2, this);
+            }, _callee2);
           }));
-          function playDestoryAnim() {
-            return _playDestoryAnim.apply(this, arguments);
+          function playDestroyAnim() {
+            return _playDestroyAnim.apply(this, arguments);
           }
-          return playDestoryAnim;
+          return playDestroyAnim;
         }();
         _proto.moveToPosition = function moveToPosition(position) {
           var _this3 = this;
