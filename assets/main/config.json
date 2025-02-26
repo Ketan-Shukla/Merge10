@@ -72,7 +72,7 @@
     ],
     "paths": {
         "f8d7dd33-00e8-4fcf-aea6-06cf65bdf993": [
-            "db:/assets/scene/Game",
+            "db:/assets/Scenes/OldGameScene",
             "cc.SceneAsset",
             1
         ],
@@ -88,7 +88,7 @@
         ]
     },
     "scenes": {
-        "db://assets/scene/Game.scene": "f8d7dd33-00e8-4fcf-aea6-06cf65bdf993"
+        "db://assets/Scenes/OldGameScene.scene": "f8d7dd33-00e8-4fcf-aea6-06cf65bdf993"
     },
     "packs": {
         "0df44bfc1": [

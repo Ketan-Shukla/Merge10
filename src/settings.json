@@ -57,7 +57,7 @@
         ]
     },
     "launch": {
-        "launchScene": "db://assets/scene/Game.scene"
+        "launchScene": "db://assets/Scenes/OldGameScene.scene"
     },
     "screen": {
         "exactFitScreen": true,

@@ -7,6 +7,8 @@ System.register("chunks:///_virtual/rollupPluginModLoBabelHelpers.js", [], funct
         arrayLikeToArray: _arrayLikeToArray,
         assertThisInitialized: _assertThisInitialized,
         asyncToGenerator: _asyncToGenerator,
+        classPrivateFieldLooseBase: _classPrivateFieldLooseBase,
+        classPrivateFieldLooseKey: _classPrivateFieldLooseKey,
         createClass: _createClass,
         createForOfIteratorHelperLoose: _createForOfIteratorHelperLoose,
         inheritsLoose: _inheritsLoose,
@@ -460,6 +462,16 @@ System.register("chunks:///_virtual/rollupPluginModLoBabelHelpers.js", [], funct
           desc = null;
         }
         return desc;
+      }
+      var id = 0;
+      function _classPrivateFieldLooseKey(name) {
+        return "__private_" + id++ + "_" + name;
+      }
+      function _classPrivateFieldLooseBase(receiver, privateKey) {
+        if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) {
+          throw new TypeError("attempted to use private field on non-instance");
+        }
+        return receiver;
       }
     }
   };
